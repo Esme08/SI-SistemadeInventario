@@ -6,7 +6,7 @@ package sistema_los_amigos.Formularios.formAdmin;
 
 /**
  *
- * @author esmer
+ * @author esme :3
  */
 public class menuPrincipalAdmin extends javax.swing.JFrame {
 
@@ -202,7 +202,8 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_adminInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adminInventarioActionPerformed
-        // TODO add your handling code here:
+        AdminInventario formulario = new AdminInventario();
+        formulario.setVisible(true);
     }//GEN-LAST:event_btn_adminInventarioActionPerformed
 
     private void btn_adminVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adminVentasActionPerformed

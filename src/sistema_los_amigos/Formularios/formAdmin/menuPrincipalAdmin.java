@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package sistema_los_amigos.Formularios.formAdmin;
 
 /**
@@ -59,7 +55,7 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
         btn_adminInventario.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btn_adminInventario.setForeground(new java.awt.Color(255, 255, 255));
         btn_adminInventario.setText("Administrar Inventario");
-        btn_adminInventario.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_adminInventario.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_adminInventario.setMaximumSize(new java.awt.Dimension(171, 27));
         btn_adminInventario.setMinimumSize(new java.awt.Dimension(171, 27));
         btn_adminInventario.setPreferredSize(new java.awt.Dimension(171, 27));
@@ -73,7 +69,7 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
         btn_adminVentas.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btn_adminVentas.setForeground(new java.awt.Color(255, 255, 255));
         btn_adminVentas.setText("Administrar Ventas");
-        btn_adminVentas.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_adminVentas.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_adminVentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_adminVentasActionPerformed(evt);
@@ -84,7 +80,7 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
         btn_registrarVentas.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btn_registrarVentas.setForeground(new java.awt.Color(255, 255, 255));
         btn_registrarVentas.setText("Registrar Ventas");
-        btn_registrarVentas.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_registrarVentas.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_registrarVentas.setMaximumSize(new java.awt.Dimension(171, 27));
         btn_registrarVentas.setMinimumSize(new java.awt.Dimension(171, 27));
         btn_registrarVentas.setPreferredSize(new java.awt.Dimension(171, 27));
@@ -98,7 +94,7 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
         btn_adminClientes.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btn_adminClientes.setForeground(new java.awt.Color(255, 255, 255));
         btn_adminClientes.setText("Administrar Clientes");
-        btn_adminClientes.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_adminClientes.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_adminClientes.setMaximumSize(new java.awt.Dimension(171, 27));
         btn_adminClientes.setMinimumSize(new java.awt.Dimension(171, 27));
         btn_adminClientes.setPreferredSize(new java.awt.Dimension(171, 27));
@@ -112,7 +108,7 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
         btn_adminPersonal.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btn_adminPersonal.setForeground(new java.awt.Color(255, 255, 255));
         btn_adminPersonal.setText("Administrar Personal");
-        btn_adminPersonal.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_adminPersonal.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_adminPersonal.setMaximumSize(new java.awt.Dimension(171, 27));
         btn_adminPersonal.setMinimumSize(new java.awt.Dimension(171, 27));
         btn_adminPersonal.setPreferredSize(new java.awt.Dimension(171, 27));
@@ -126,7 +122,7 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
         btn_cerrarSesion.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btn_cerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btn_cerrarSesion.setText("Cerrar Sesión");
-        btn_cerrarSesion.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_cerrarSesion.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_cerrarSesion.setMaximumSize(new java.awt.Dimension(171, 27));
         btn_cerrarSesion.setMinimumSize(new java.awt.Dimension(171, 27));
         btn_cerrarSesion.setPreferredSize(new java.awt.Dimension(171, 27));
@@ -207,23 +203,27 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_adminInventarioActionPerformed
 
     private void btn_adminVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adminVentasActionPerformed
-        // TODO add your handling code here:
+        AdminVentas form = new AdminVentas();
+        form.setVisible(true);
     }//GEN-LAST:event_btn_adminVentasActionPerformed
 
     private void btn_registrarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarVentasActionPerformed
-        // TODO add your handling code here:
+        IniciarVenta form = new IniciarVenta();
+        form.setVisible(true);
     }//GEN-LAST:event_btn_registrarVentasActionPerformed
 
     private void btn_adminClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adminClientesActionPerformed
-        // TODO add your handling code here:
+        AdminCliente form = new AdminCliente();
+        form.setVisible(true);
     }//GEN-LAST:event_btn_adminClientesActionPerformed
 
     private void btn_adminPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adminPersonalActionPerformed
-        // TODO add your handling code here:
+        AdminEmppleados form = new AdminEmppleados();
+        form.setVisible(true);
     }//GEN-LAST:event_btn_adminPersonalActionPerformed
 
     private void btn_cerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarSesionActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btn_cerrarSesionActionPerformed
 
     /**

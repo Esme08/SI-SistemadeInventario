@@ -63,7 +63,7 @@ public class Inicio extends javax.swing.JFrame {
         btn_inicioSesión.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btn_inicioSesión.setForeground(new java.awt.Color(255, 255, 255));
         btn_inicioSesión.setText("Iniciar Sesión");
-        btn_inicioSesión.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_inicioSesión.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

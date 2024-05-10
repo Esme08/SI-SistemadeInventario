@@ -59,7 +59,7 @@ public class menuPrincipalEmpleado extends javax.swing.JFrame {
         btn_registrarVentas.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btn_registrarVentas.setForeground(new java.awt.Color(255, 255, 255));
         btn_registrarVentas.setText("Registrar Ventas");
-        btn_registrarVentas.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_registrarVentas.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_registrarVentas.setMaximumSize(new java.awt.Dimension(171, 27));
         btn_registrarVentas.setMinimumSize(new java.awt.Dimension(171, 27));
         btn_registrarVentas.setPreferredSize(new java.awt.Dimension(171, 27));
@@ -73,7 +73,7 @@ public class menuPrincipalEmpleado extends javax.swing.JFrame {
         btn_cerrarSesion.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btn_cerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btn_cerrarSesion.setText("Cerrar Sesión");
-        btn_cerrarSesion.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_cerrarSesion.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_cerrarSesion.setMaximumSize(new java.awt.Dimension(171, 27));
         btn_cerrarSesion.setMinimumSize(new java.awt.Dimension(171, 27));
         btn_cerrarSesion.setPreferredSize(new java.awt.Dimension(171, 27));
@@ -87,7 +87,7 @@ public class menuPrincipalEmpleado extends javax.swing.JFrame {
         btn_consultarClientes.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btn_consultarClientes.setForeground(new java.awt.Color(255, 255, 255));
         btn_consultarClientes.setText("Consultar Clientes");
-        btn_consultarClientes.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_consultarClientes.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_consultarClientes.setMaximumSize(new java.awt.Dimension(171, 27));
         btn_consultarClientes.setMinimumSize(new java.awt.Dimension(171, 27));
         btn_consultarClientes.setPreferredSize(new java.awt.Dimension(171, 27));
@@ -101,7 +101,7 @@ public class menuPrincipalEmpleado extends javax.swing.JFrame {
         btn_consultarInventario.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         btn_consultarInventario.setForeground(new java.awt.Color(255, 255, 255));
         btn_consultarInventario.setText("Consultar Inventario");
-        btn_consultarInventario.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_consultarInventario.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_consultarInventario.setMaximumSize(new java.awt.Dimension(171, 27));
         btn_consultarInventario.setMinimumSize(new java.awt.Dimension(171, 27));
         btn_consultarInventario.setPreferredSize(new java.awt.Dimension(171, 27));
@@ -169,19 +169,22 @@ public class menuPrincipalEmpleado extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_registrarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarVentasActionPerformed
-        // TODO add your handling code here:
+        IniciarVenta form = new IniciarVenta();
+        form.setVisible(true);
     }//GEN-LAST:event_btn_registrarVentasActionPerformed
 
     private void btn_cerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarSesionActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btn_cerrarSesionActionPerformed
 
     private void btn_consultarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consultarClientesActionPerformed
-        // TODO add your handling code here:
+        EmpleadoCliente form = new EmpleadoCliente();
+        form.setVisible(true);
     }//GEN-LAST:event_btn_consultarClientesActionPerformed
 
     private void btn_consultarInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consultarInventarioActionPerformed
-        // TODO add your handling code here:
+        EmpleadoInventario form = new EmpleadoInventario();
+        form.setVisible(true);
     }//GEN-LAST:event_btn_consultarInventarioActionPerformed
 
     /**

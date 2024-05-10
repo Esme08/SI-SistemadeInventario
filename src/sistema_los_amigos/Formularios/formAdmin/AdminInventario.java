@@ -82,7 +82,7 @@ public class AdminInventario extends javax.swing.JFrame {
         btn_guardarProductos = new javax.swing.JButton();
         btn_EliminarProductos = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(41, 38, 67));
 
@@ -130,13 +130,13 @@ public class AdminInventario extends javax.swing.JFrame {
         btn_EliminarCategorias.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         btn_EliminarCategorias.setForeground(new java.awt.Color(255, 255, 255));
         btn_EliminarCategorias.setText("Eliminar");
-        btn_EliminarCategorias.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_EliminarCategorias.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         btn_guardarCategorias.setBackground(new java.awt.Color(201, 101, 0));
         btn_guardarCategorias.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         btn_guardarCategorias.setForeground(new java.awt.Color(255, 255, 255));
         btn_guardarCategorias.setText("Guardar");
-        btn_guardarCategorias.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_guardarCategorias.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout panelCategoriaLayout = new javax.swing.GroupLayout(panelCategoria);
         panelCategoria.setLayout(panelCategoriaLayout);

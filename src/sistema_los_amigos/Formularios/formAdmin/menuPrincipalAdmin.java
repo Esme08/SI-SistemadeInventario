@@ -200,26 +200,31 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
     private void btn_adminInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adminInventarioActionPerformed
         AdminInventario formulario = new AdminInventario();
         formulario.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_adminInventarioActionPerformed
 
     private void btn_adminVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adminVentasActionPerformed
         AdminVentas form = new AdminVentas();
         form.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_adminVentasActionPerformed
 
     private void btn_registrarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarVentasActionPerformed
         IniciarVenta form = new IniciarVenta();
         form.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_registrarVentasActionPerformed
 
     private void btn_adminClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adminClientesActionPerformed
         AdminCliente form = new AdminCliente();
         form.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_adminClientesActionPerformed
 
     private void btn_adminPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adminPersonalActionPerformed
         AdminEmppleados form = new AdminEmppleados();
         form.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_adminPersonalActionPerformed
 
     private void btn_cerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarSesionActionPerformed

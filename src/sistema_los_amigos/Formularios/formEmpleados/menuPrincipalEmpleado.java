@@ -171,6 +171,7 @@ public class menuPrincipalEmpleado extends javax.swing.JFrame {
     private void btn_registrarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarVentasActionPerformed
         IniciarVenta form = new IniciarVenta();
         form.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_registrarVentasActionPerformed
 
     private void btn_cerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarSesionActionPerformed
@@ -180,11 +181,13 @@ public class menuPrincipalEmpleado extends javax.swing.JFrame {
     private void btn_consultarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consultarClientesActionPerformed
         EmpleadoCliente form = new EmpleadoCliente();
         form.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_consultarClientesActionPerformed
 
     private void btn_consultarInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consultarInventarioActionPerformed
         EmpleadoInventario form = new EmpleadoInventario();
         form.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_consultarInventarioActionPerformed
 
     /**

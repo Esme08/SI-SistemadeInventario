@@ -5,13 +5,25 @@
 package sistema_los_amigos.Formularios.formEmpleados;
 
 import sistema_los_amigos.Formularios.formAdmin.*;
+import sistema_los_amigos.Sistema_Los_Amigos;
 
 /**
  *
  * @author esmer
  */
 public class menuPrincipalEmpleado extends javax.swing.JFrame {
+    
+    Sistema_Los_Amigos Control = new Sistema_Los_Amigos();
 
+    public Sistema_Los_Amigos getControl() {
+        return Control;
+    }
+
+    public void setControl(Sistema_Los_Amigos Control) {
+        this.Control = Control;
+    }
+
+    
     /**
      * Creates new form menuPrincipal
      */

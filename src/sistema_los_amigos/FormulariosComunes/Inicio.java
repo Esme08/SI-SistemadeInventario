@@ -1,20 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package sistema_los_amigos.FormulariosComunes;
-
-/**
- *
- * @author esmer
+import Conexion.Conexion;
+import javax.swing.JOptionPane;
+import sistema_los_amigos.Formularios.formAdmin.menuPrincipalAdmin;
+import sistema_los_amigos.Formularios.formEmpleados.menuPrincipalEmpleado;
+import sistema_los_amigos.Sistema_Los_Amigos;
+        
+/*
+ * @author esme :(
  */
+
 public class Inicio extends javax.swing.JFrame {
 
+    Sistema_Los_Amigos Control;
+            
+    
     /**
      * Creates new form Inicio
      */
     public Inicio() {
         initComponents();
+        Control = new Sistema_Los_Amigos();
     }
 
     /**
@@ -64,6 +69,11 @@ public class Inicio extends javax.swing.JFrame {
         btn_inicioSesión.setForeground(new java.awt.Color(255, 255, 255));
         btn_inicioSesión.setText("Iniciar Sesión");
         btn_inicioSesión.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_inicioSesión.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_inicioSesiónActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -125,6 +135,39 @@ public class Inicio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_inicioSesiónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_inicioSesiónActionPerformed
+        String usuario = txt_nombreUsuario.getText();
+        char[] contra = txt_contrasena.getPassword();
+        
+        Control.setConn(usuario, String.copyValueOf(contra));
+        
+        if(Control.getConn()!= null)
+        {
+            Control.setUsuario(usuario); //guardamos el usuario en la clase principal Formulario
+            Control.verificarRol(); //verificamos el rol del usuario
+            
+            if (Control.getRol() == 3)
+            {
+                menuPrincipalAdmin menu = new menuPrincipalAdmin();
+                menu.setControl(Control);
+                menu.setVisible(true);
+                this.dispose();
+            }
+            if (Control.getRol() == 4)
+            {
+                menuPrincipalEmpleado menu = new menuPrincipalEmpleado();
+                menu.setControl(Control);
+                menu.setVisible(true);
+                this.dispose();
+            }                
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Ups, hubo un error");
+        }
+       
+    }//GEN-LAST:event_btn_inicioSesiónActionPerformed
 
     /**
      * @param args the command line arguments

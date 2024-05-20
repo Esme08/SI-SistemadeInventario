@@ -38,6 +38,8 @@ public class RegistrarVentas extends javax.swing.JFrame {
         TablaDetalle = new javax.swing.JTable();
         btn_agregar = new javax.swing.JButton();
         btn_agregar1 = new javax.swing.JButton();
+        lbl_empleado = new javax.swing.JLabel();
+        cbx_empleado = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,6 +92,13 @@ public class RegistrarVentas extends javax.swing.JFrame {
         btn_agregar1.setText("Finalizar");
         btn_agregar1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
+        lbl_empleado.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+        lbl_empleado.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_empleado.setText("Empleado:");
+
+        cbx_empleado.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+        cbx_empleado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -103,16 +112,20 @@ public class RegistrarVentas extends javax.swing.JFrame {
                                 .addComponent(lbl_producto)
                                 .addGap(18, 18, 18)
                                 .addComponent(cbx_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbl_Detalle, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(lbl_cantidad)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl_cantidad)
+                                    .addComponent(lbl_empleado))
                                 .addGap(18, 18, 18)
-                                .addComponent(txt_cantidad)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbx_empleado, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txt_cantidad))))
                         .addGap(39, 39, 39)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btn_agregar1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(lbl_Detalle, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -128,11 +141,15 @@ public class RegistrarVentas extends javax.swing.JFrame {
                     .addComponent(btn_agregar1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_cantidad)
                     .addComponent(txt_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbx_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_empleado))
                 .addGap(18, 18, 18)
                 .addComponent(lbl_Detalle)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Realizar venta", jPanel2);
@@ -207,6 +224,7 @@ public class RegistrarVentas extends javax.swing.JFrame {
     private javax.swing.JTable TablaDetalle;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_agregar1;
+    private javax.swing.JComboBox<String> cbx_empleado;
     private javax.swing.JComboBox<String> cbx_producto;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -214,6 +232,7 @@ public class RegistrarVentas extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lbl_Detalle;
     private javax.swing.JLabel lbl_cantidad;
+    private javax.swing.JLabel lbl_empleado;
     private javax.swing.JLabel lbl_producto;
     private javax.swing.JSpinner txt_cantidad;
     // End of variables declaration//GEN-END:variables

@@ -42,6 +42,8 @@ public class AdminEmppleados extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaEmpleados = new javax.swing.JTable();
         bttn_volver = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        cbx_usuariotipo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -101,13 +103,13 @@ public class AdminEmppleados extends javax.swing.JFrame {
         TablaEmpleados.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         TablaEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Teléfono", "DUI"
+                "ID", "Nombre", "Teléfono", "DUI", "Tipo de usuario", "Permisos"
             }
         ));
         jScrollPane1.setViewportView(TablaEmpleados);
@@ -122,6 +124,13 @@ public class AdminEmppleados extends javax.swing.JFrame {
                 bttn_volverActionPerformed(evt);
             }
         });
+
+        jLabel5.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Usuario:");
+
+        cbx_usuariotipo.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+        cbx_usuariotipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -149,14 +158,16 @@ public class AdminEmppleados extends javax.swing.JFrame {
                                     .addComponent(txt_DUI)
                                     .addComponent(txt_telefono)
                                     .addComponent(txt_nombre))))
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bttn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(51, 51, 51)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(bttn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(bttn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(335, 335, 335)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(cbx_usuariotipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(bttn_guardar, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
+                                .addGap(106, 106, 106)
                                 .addComponent(bttn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(222, 222, 222))))
         );
@@ -173,7 +184,9 @@ public class AdminEmppleados extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(txt_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bttn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(bttn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(cbx_usuariotipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -276,10 +289,12 @@ public class AdminEmppleados extends javax.swing.JFrame {
     private javax.swing.JButton bttn_eliminar;
     private javax.swing.JButton bttn_guardar;
     private javax.swing.JButton bttn_volver;
+    private javax.swing.JComboBox<String> cbx_usuariotipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

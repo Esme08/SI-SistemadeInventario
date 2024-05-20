@@ -1,20 +1,78 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package sistema_los_amigos.Formularios.formAdmin;
 
-/**
- *
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import sistema_los_amigos.Sistema_Los_Amigos;
+import sistema_los_amigos.tipo_producto;
+
+/*
  * @author esmer
  */
-public class AdminInventario extends javax.swing.JFrame {
 
-    /**
+public class AdminInventario extends javax.swing.JFrame {
+    
+    Sistema_Los_Amigos Control = new Sistema_Los_Amigos();
+    DefaultTableModel modelo;
+    boolean nuevo;
+    
+    public void cargarCategorias ()
+    {
+        tipo_producto tipo = new tipo_producto();
+        tipo.setConn(Control.getConn());
+        
+        this.modelo.setRowCount(0);
+        try 
+        {
+            ResultSet st = tipo.getTipoProducto();
+            if(st != null)
+            {
+                while(st.next()) 
+                {
+                    String datos[] = 
+                    {
+                        st.getObject(1).toString(),
+                        st.getObject(2).toString(),
+                        st.getObject(3).toString()
+                    };
+                    this.modelo.addRow(datos);
+                }
+            }
+            
+        }
+        catch (SQLException ex) 
+        { 
+            
+        }
+    }
+    
+    public void limpiarCategoria ()
+    {
+        txt_idCategoria.setText("");
+        txt_nombreCategoria.setText("");
+        txt_descripcionCategoria.setText("");
+    }
+    
+    public void cargarRegistroCategoria()
+    {
+        int i = this.tablaCategorias.getSelectedRow();
+        String idCategorias= this.tablaCategorias.getModel().getValueAt(i,0).toString();
+        String nombre= this.tablaCategorias.getModel().getValueAt(i,1).toString();
+        String descripciin= this.tablaCategorias.getModel().getValueAt(i,2).toString();
+        
+        this.txt_idCategoria.setText(idCategorias);
+        this.txt_nombreCategoria.setText(nombre);
+        this.txt_descripcionCategoria.setText(descripciin);
+    }
+
+    /*
      * Creates new form AdminInventario
      */
     public AdminInventario() {
         initComponents();
+        modelo = (DefaultTableModel) this.tablaCategorias.getModel();
+        this.nuevo = true;
     }
 
     /**
@@ -39,7 +97,7 @@ public class AdminInventario extends javax.swing.JFrame {
         txt_nombreCategoria = new javax.swing.JTextField();
         lbl_descripcionCategoria = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        txa_descripcionCategoria = new javax.swing.JTextArea();
+        txt_descripcionCategoria = new javax.swing.JTextArea();
         btn_EliminarCategorias = new javax.swing.JButton();
         btn_guardarCategorias = new javax.swing.JButton();
         bttn_volver = new javax.swing.JButton();
@@ -106,6 +164,11 @@ public class AdminInventario extends javax.swing.JFrame {
                 "ID", "Nombre", "Descripción"
             }
         ));
+        tablaCategorias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaCategoriasMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaCategorias);
 
         lbl_idCategoria.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
@@ -125,21 +188,31 @@ public class AdminInventario extends javax.swing.JFrame {
         lbl_descripcionCategoria.setForeground(new java.awt.Color(255, 255, 255));
         lbl_descripcionCategoria.setText("Descripción:");
 
-        txa_descripcionCategoria.setColumns(20);
-        txa_descripcionCategoria.setRows(5);
-        jScrollPane5.setViewportView(txa_descripcionCategoria);
+        txt_descripcionCategoria.setColumns(20);
+        txt_descripcionCategoria.setRows(5);
+        jScrollPane5.setViewportView(txt_descripcionCategoria);
 
         btn_EliminarCategorias.setBackground(new java.awt.Color(201, 101, 0));
         btn_EliminarCategorias.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         btn_EliminarCategorias.setForeground(new java.awt.Color(255, 255, 255));
         btn_EliminarCategorias.setText("Eliminar");
         btn_EliminarCategorias.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_EliminarCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_EliminarCategoriasActionPerformed(evt);
+            }
+        });
 
         btn_guardarCategorias.setBackground(new java.awt.Color(201, 101, 0));
         btn_guardarCategorias.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         btn_guardarCategorias.setForeground(new java.awt.Color(255, 255, 255));
         btn_guardarCategorias.setText("Guardar");
         btn_guardarCategorias.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_guardarCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarCategoriasActionPerformed(evt);
+            }
+        });
 
         bttn_volver.setBackground(new java.awt.Color(68, 66, 110));
         bttn_volver.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
@@ -182,7 +255,7 @@ public class AdminInventario extends javax.swing.JFrame {
                                     .addGroup(panelCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(btn_guardarCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(btn_EliminarCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(271, 271, 271)
+                                    .addGap(256, 256, 256)
                                     .addComponent(bttn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 794, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -585,6 +658,7 @@ public class AdminInventario extends javax.swing.JFrame {
 
     private void bttn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttn_volverActionPerformed
         menuPrincipalAdmin form = new menuPrincipalAdmin();
+        form.Control = this.Control;
         form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bttn_volverActionPerformed
@@ -600,6 +674,52 @@ public class AdminInventario extends javax.swing.JFrame {
         form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bttn_volver2ActionPerformed
+
+    private void tablaCategoriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCategoriasMouseClicked
+        cargarRegistroCategoria();
+        this.nuevo = false;
+    }//GEN-LAST:event_tablaCategoriasMouseClicked
+
+    private void btn_guardarCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarCategoriasActionPerformed
+        String nombrecat = txt_nombreCategoria.getText();
+        String drescripcioncat = txt_descripcionCategoria.getText();
+        if(nombrecat.isEmpty())
+        {   
+            JOptionPane.showMessageDialog(null, "Asegurate de haber ingresado el nombre");       
+        }
+        else
+        {
+            if (this.nuevo)
+            {
+                tipo_producto tipo = new tipo_producto( nombrecat, drescripcioncat, this.Control.getConn());
+                tipo.guardarTipoProducto();
+                limpiarCategoria();
+                cargarCategorias();
+                this.nuevo = true;
+            }
+            else 
+            {
+                tipo_producto tipo = new tipo_producto(Integer.parseInt(txt_idCategoria.getText()), nombrecat, drescripcioncat, this.Control.getConn());
+                tipo.modificarTipoProducto();
+                limpiarCategoria();
+                cargarCategorias();
+                this.nuevo = true;
+            }
+        }
+    }//GEN-LAST:event_btn_guardarCategoriasActionPerformed
+
+    private void btn_EliminarCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarCategoriasActionPerformed
+        int resultado= JOptionPane.showConfirmDialog(this, "Desea borrar el registro?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if(resultado==JOptionPane.YES_OPTION) {
+            tipo_producto tipo= new tipo_producto();
+            tipo.setConn(this.Control.getConn());
+            tipo.setIdtipo_producto(Integer.parseInt(this.txt_idCategoria.getText()));
+            tipo.borrarTipoProducto();
+            this.limpiarCategoria();
+            this.cargarCategorias();
+            
+        }
+    }//GEN-LAST:event_btn_EliminarCategoriasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -683,9 +803,9 @@ public class AdminInventario extends javax.swing.JFrame {
     private javax.swing.JTable tablaCategorias;
     private javax.swing.JTable tablaMarcas;
     private javax.swing.JTable tablaProductos;
-    private javax.swing.JTextArea txa_descripcionCategoria;
     private javax.swing.JTextArea txa_descripcionProductos;
     private javax.swing.JTextField txt_cantidadProductos;
+    private javax.swing.JTextArea txt_descripcionCategoria;
     private javax.swing.JTextField txt_id2;
     private javax.swing.JTextField txt_idCategoria;
     private javax.swing.JTextField txt_idMarcas;

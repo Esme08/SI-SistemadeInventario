@@ -17,24 +17,22 @@ import javax.swing.JOptionPane;
 
 public class Conexion 
 {
-     public Connection conn;
-   private Statement stm;
+    public Connection conn;
+    private Statement stm;
    
-   public Conexion(String pUsuario, String pClave)  
-   {
-      
-      try
-      {
-        Class.forName("com.mysql.cj.jdbc.Driver") ;
-        this.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/los_amigos?zeroDateTimeBehavior=CONVERT_TO_NULL",  pUsuario, pClave);
-        this.stm = this.conn.createStatement();
-        JOptionPane.showMessageDialog(null, "Conexión Exitosa");
-       }
+    public Conexion(String pUsuario, String pClave)  
+    {
+        try
+        {
+            Class.forName("com.mysql.cj.jdbc.Driver") ;
+            this.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/los_amigos?zeroDateTimeBehavior=CONVERT_TO_NULL",  pUsuario, pClave);
+            this.stm = this.conn.createStatement();
+        }
        catch(Exception e) 
-       {
-        JOptionPane.showMessageDialog(null, e);
-       }
-   }
+        {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
 
     public Conexion() 
     {

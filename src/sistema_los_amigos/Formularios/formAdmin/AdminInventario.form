@@ -126,7 +126,7 @@
                                                   <Component id="btn_guardarCategorias" min="-2" pref="110" max="-2" attributes="0"/>
                                                   <Component id="btn_EliminarCategorias" min="-2" pref="110" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace min="-2" pref="271" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="256" max="-2" attributes="0"/>
                                               <Component id="bttn_volver" min="-2" pref="110" max="-2" attributes="0"/>
                                           </Group>
                                           <Component id="jScrollPane2" min="-2" pref="794" max="-2" attributes="0"/>
@@ -219,6 +219,9 @@
                           </Table>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaCategoriasMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -277,7 +280,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="txa_descripcionCategoria">
+                    <Component class="javax.swing.JTextArea" name="txt_descripcionCategoria">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
                         <Property name="rows" type="int" value="5"/>
@@ -303,6 +306,9 @@
                       </Border>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_EliminarCategoriasActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btn_guardarCategorias">
                   <Properties>
@@ -322,6 +328,9 @@
                       </Border>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_guardarCategoriasActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="bttn_volver">
                   <Properties>

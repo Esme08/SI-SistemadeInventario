@@ -20,15 +20,17 @@ public class marca {
     private String nombre;
     private Conexion conn;
 
-    public marca(int id_marca, String nombre) 
+    public marca(int id_marca, String nombre, Conexion conn) 
     {
         this.id_marca = id_marca;
         this.nombre = nombre;
+        this.conn = conn;
     }
 
-    public marca(String nombre) 
+    public marca(String nombre,Conexion conn) 
     {
         this.nombre = nombre;
+        this.conn = conn;
     }
 
     public marca() 
@@ -36,73 +38,71 @@ public class marca {
         
     }
     
-//    public ResultSet getTipoProducto() 
-//    {
-//        try 
-//        {
-//           String orden = " SELECT * FROM tipo_producto" ;
-//           Statement stm =  this.conn.conn.createStatement();
-//           return stm.executeQuery(orden);
-//        }
-//        catch(Exception e) 
-//        {
-//           return null;
-//        }
-//    }
-//    
-//    public void guardarTipoProducto() 
-//    {
-//       
-//        try 
-//        {
-//            String query = "INSERT INTO tipo_producto(nombre, descripcion)" 
-//            +  "VALUES (?, ?)";
-//            PreparedStatement pst = this.conn.conn.prepareStatement(query);
-//            pst.setString(1, this.nombre);
-//            pst.setString(2, this.descripcion);
-//            pst.execute();
-//        }
-//        catch (Exception ee) 
-//        { 
-//           JOptionPane.showMessageDialog(null, ee);
-//        }   
-//    }
-//
-//    public void modificarTipoProducto() 
-//    {
-//       if (this.idtipo_producto > 0) 
-//        {
-//            try 
-//            {
-//                String orden = 
-//                "UPDATE tipo_producto SET nombre=?, descripcion=? " + "WHERE idtipo_producto=?";
-//                PreparedStatement pst = this.conn.conn.prepareStatement(orden);
-//                pst.setString(1, this.nombre);
-//                pst.setString(2, this.descripcion);
-//                pst.setInt(3, this.idtipo_producto);;
-//                pst.execute();
-//            }
-//            catch(Exception ee) 
-//            {
-//               
-//            }
-//        }
-//    }
-//    
-//    public void borrarTipoProducto() 
-//    {
-//        try 
-//        {
-//            String orden= "DELETE FROM tipo_producto WHERE idtipo_producto=?";
-//            PreparedStatement pst = this.conn.conn.prepareStatement(orden);
-//            pst.setInt(1, this.idtipo_producto);
-//            pst.execute();
-//        }
-//        catch(Exception ee) 
-//        {
-//
-//        }     
-//    }
+    public ResultSet getMarca() 
+    {
+        try 
+        {
+           String orden = " SELECT * FROM marca" ;
+           Statement stm =  this.conn.conn.createStatement();
+           return stm.executeQuery(orden);
+        }
+        catch(Exception e) 
+        {
+           return null;
+        }
+    }
+    
+    public void guardarMarca() 
+    {
+       
+        try 
+        {
+            String query = "INSERT INTO marca(nombre)" 
+            +  "VALUES (?)";
+            PreparedStatement pst = this.conn.conn.prepareStatement(query);
+            pst.setString(1, this.nombre);
+            pst.execute();
+        }
+        catch (Exception ee) 
+        { 
+           JOptionPane.showMessageDialog(null, ee);
+        }   
+    }
+
+    public void modificarMarca() 
+    {
+       if (this.id_marca > 0) 
+        {
+            try 
+            {
+                String orden = 
+                "UPDATE marca SET nombre=? " + "WHERE idmarca=?";
+                PreparedStatement pst = this.conn.conn.prepareStatement(orden);
+                pst.setString(1, this.nombre);
+                pst.setInt(2, this.id_marca);;
+                pst.execute();
+            }
+            catch(Exception ee) 
+            {
+               JOptionPane.showMessageDialog(null, ee);
+            }
+        }
+    }
+    
+    public void borrarMarca() 
+    {
+        try 
+        {
+            String orden= "DELETE FROM marca WHERE idmarca=?";
+            PreparedStatement pst = this.conn.conn.prepareStatement(orden);
+            pst.setInt(1, this.id_marca);
+            pst.execute();
+        }
+        catch(Exception ee) 
+        {
+            JOptionPane.showMessageDialog(null, ee);
+        }     
+    }
 
     public int getId_marca() 
     {

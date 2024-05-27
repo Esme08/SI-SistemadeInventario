@@ -213,6 +213,8 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
         AdminInventario formulario = new AdminInventario();
         formulario.Control = this.Control;
         formulario.cargarCategorias();
+        formulario.cargarMarca();
+        formulario.cargarProductos();
         formulario.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_adminInventarioActionPerformed

@@ -211,6 +211,9 @@
                   <SubComponents>
                     <Component class="javax.swing.JTable" name="tablaCategorias">
                       <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Trebuchet MS" size="14" style="0"/>
+                        </Property>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                           <Table columnCount="3" rowCount="4">
                             <Column editable="true" title="ID" type="java.lang.Object"/>
@@ -218,6 +221,7 @@
                             <Column editable="true" title="Descripci&#xf3;n" type="java.lang.Object"/>
                           </Table>
                         </Property>
+                        <Property name="autoResizeMode" type="int" value="4"/>
                       </Properties>
                       <Events>
                         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaCategoriasMouseClicked"/>
@@ -477,6 +481,9 @@
                   <SubComponents>
                     <Component class="javax.swing.JTable" name="tablaMarcas">
                       <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Trebuchet MS" size="14" style="0"/>
+                        </Property>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                           <Table columnCount="2" rowCount="4">
                             <Column editable="true" title="ID" type="java.lang.Object"/>
@@ -484,6 +491,9 @@
                           </Table>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaMarcasMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -646,6 +656,9 @@
                       </Border>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_guardarMarcasActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btn_EliminarMarcas">
                   <Properties>
@@ -665,6 +678,9 @@
                       </Border>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_EliminarMarcasActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="bttn_volver1">
                   <Properties>
@@ -713,61 +729,63 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="filler2" min="-2" pref="943" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="lbl_nombreProductos" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="txt_nombreProductos" min="-2" pref="124" max="-2" attributes="0"/>
-                                              <Component id="txt_idProductos" min="-2" pref="124" max="-2" attributes="0"/>
+                              <Component id="jScrollPane1" min="-2" pref="821" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="lbl_nombreProductos" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="txt_nombreProductos" min="-2" pref="124" max="-2" attributes="0"/>
+                                                  <Component id="txt_idProductos" min="-2" pref="124" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="lbl_precioProductos" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lbl_cantidadProductos" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="txt_cantidadProductos" max="32767" attributes="0"/>
+                                                  <Component id="txt_precio" min="-2" pref="124" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
-                                          <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="lbl_precioProductos" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="lbl_cantidadProductos" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="txt_cantidadProductos" max="32767" attributes="0"/>
-                                              <Component id="txt_precio" min="-2" pref="124" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="lbl_descripcionProductos" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lbl_idProductos" min="-2" pref="37" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="jScrollPane4" min="-2" pref="417" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="lbl_descripcionProductos" min="-2" max="-2" attributes="0"/>
-                                              <Component id="lbl_idProductos" min="-2" pref="37" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="lbl_tipoProductos" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lbl_marcaProductos" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace max="32767" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="cbx_marcaProductos" alignment="0" min="-2" pref="113" max="-2" attributes="0"/>
+                                                  <Component id="cbx_tipoProductos" alignment="0" min="-2" pref="113" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane4" min="-2" pref="417" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="1" attributes="0">
+                                                  <Component id="btn_EliminarProductos" min="-2" pref="110" max="-2" attributes="0"/>
+                                                  <Component id="btn_guardarProductos" min="-2" pref="110" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
                                       </Group>
                                   </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="lbl_tipoProductos" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="lbl_marcaProductos" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                                          <Component id="cbx_marcaProductos" min="-2" pref="113" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="1" attributes="0">
-                                              <Component id="btn_EliminarProductos" min="-2" pref="110" max="-2" attributes="0"/>
-                                              <Component id="btn_guardarProductos" min="-2" pref="110" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="711" max="-2" attributes="0"/>
+                                      <Component id="bttn_volver2" min="-2" pref="110" max="-2" attributes="0"/>
                                   </Group>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="681" max="-2" attributes="0"/>
-                                  <Component id="cbx_tipoProductos" min="-2" pref="113" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                  <Component id="bttn_volver2" min="-2" pref="110" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane1" min="-2" pref="794" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -783,23 +801,30 @@
                                   <Component id="filler2" min="-2" pref="36" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lbl_marcaProductos" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lbl_idProductos" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txt_idProductos" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lbl_precioProductos" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txt_precio" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cbx_marcaProductos" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="lbl_marcaProductos" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="3" attributes="0">
+                                                  <Component id="lbl_idProductos" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="txt_idProductos" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lbl_precioProductos" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="txt_precio" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="lbl_nombreProductos" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="txt_nombreProductos" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lbl_cantidadProductos" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="txt_cantidadProductos" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lbl_tipoProductos" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lbl_nombreProductos" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txt_nombreProductos" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lbl_cantidadProductos" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txt_cantidadProductos" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lbl_tipoProductos" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cbx_tipoProductos" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="cbx_marcaProductos" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                          <Component id="cbx_tipoProductos" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -834,7 +859,7 @@
                     <Component class="javax.swing.JTable" name="tablaProductos">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Trebuchet MS" size="14" style="1"/>
+                          <Font name="Trebuchet MS" size="14" style="0"/>
                         </Property>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                           <Table columnCount="7" rowCount="4">
@@ -847,7 +872,12 @@
                             <Column editable="true" title="Tipo" type="java.lang.Object"/>
                           </Table>
                         </Property>
+                        <Property name="autoResizeMode" type="int" value="1"/>
+                        <Property name="autoscrolls" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaProductosMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1009,9 +1039,6 @@
                       </StringArray>
                     </Property>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbx_tipoProductosActionPerformed"/>
-                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
@@ -1023,7 +1050,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="txa_descripcionProductos">
+                    <Component class="javax.swing.JTextArea" name="txt_descripcionProductos">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
                         <Property name="rows" type="int" value="5"/>
@@ -1044,11 +1071,14 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Guardar"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                        <BevelBorder/>
+                      <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                        <EmptyBorder/>
                       </Border>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_guardarProductosActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btn_EliminarProductos">
                   <Properties>
@@ -1063,11 +1093,14 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Eliminar"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                        <BevelBorder/>
+                      <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                        <EmptyBorder/>
                       </Border>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_EliminarProductosActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="bttn_volver2">
                   <Properties>

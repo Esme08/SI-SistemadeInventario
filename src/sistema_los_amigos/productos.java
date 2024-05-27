@@ -10,7 +10,8 @@ import javax.swing.JOptionPane;
  * @author lauut
  */
 
-public class productos {
+public class productos 
+{
     private int idProducto;
     private String nombre;
     private String descripcion;
@@ -50,7 +51,7 @@ public class productos {
     {
         try 
         {
-           String orden = " SELECT * FROM productos" ;
+           String orden = "SELECT productos.idProducto, productos.nombre, productos.descripcion, productos.precio, productos.cantidad, marca.nombre, tipo_producto.nombre FROM productos JOIN marca ON marca.idmarca = productos.id_marca JOIN tipo_producto ON tipo_producto.idtipo_producto = productos.id_tipoproducto";
            Statement stm =  this.conn.conn.createStatement();
            return stm.executeQuery(orden);
         }
@@ -102,7 +103,7 @@ public class productos {
             }
             catch(Exception ee) 
             {
-               
+               JOptionPane.showMessageDialog(null, ee);
             }
         }
     }
@@ -118,7 +119,7 @@ public class productos {
         }
         catch(Exception ee) 
         {
-
+            JOptionPane.showMessageDialog(null, ee);
         }     
     }
     

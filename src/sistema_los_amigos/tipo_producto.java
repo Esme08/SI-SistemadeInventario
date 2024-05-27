@@ -83,7 +83,7 @@ public class tipo_producto {
             }
             catch(Exception ee) 
             {
-               
+               JOptionPane.showMessageDialog(null, ee);
             }
         }
     }
@@ -99,7 +99,7 @@ public class tipo_producto {
         }
         catch(Exception ee) 
         {
-
+            JOptionPane.showMessageDialog(null, ee);
         }     
     }
     

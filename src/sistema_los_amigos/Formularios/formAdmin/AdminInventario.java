@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sistema_los_amigos.Sistema_Los_Amigos;
+import sistema_los_amigos.marca;
+import sistema_los_amigos.productos;
 import sistema_los_amigos.tipo_producto;
 
 /*
@@ -14,15 +16,21 @@ import sistema_los_amigos.tipo_producto;
 public class AdminInventario extends javax.swing.JFrame {
     
     Sistema_Los_Amigos Control = new Sistema_Los_Amigos();
-    DefaultTableModel modelo;
-    boolean nuevo;
+    DefaultTableModel modeloCategorias;
+    DefaultTableModel modeloMarcas;
+    DefaultTableModel modeloProductos;
+    boolean nuevoTipo;
+    boolean nuevoMarca;
+    boolean nuevoProducto;
+    
+    // Métodos para panel Categorias
     
     public void cargarCategorias ()
     {
         tipo_producto tipo = new tipo_producto();
         tipo.setConn(Control.getConn());
-        
-        this.modelo.setRowCount(0);
+        this.modeloCategorias.setRowCount(0);
+        cbx_tipoProductos.removeAllItems();
         try 
         {
             ResultSet st = tipo.getTipoProducto();
@@ -30,20 +38,20 @@ public class AdminInventario extends javax.swing.JFrame {
             {
                 while(st.next()) 
                 {
+                    cbx_tipoProductos.addItem(st.getObject(2).toString());
                     String datos[] = 
                     {
                         st.getObject(1).toString(),
                         st.getObject(2).toString(),
                         st.getObject(3).toString()
                     };
-                    this.modelo.addRow(datos);
+                    this.modeloCategorias.addRow(datos);
                 }
             }
-            
         }
         catch (SQLException ex) 
         { 
-            
+            JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
         }
     }
     
@@ -54,7 +62,7 @@ public class AdminInventario extends javax.swing.JFrame {
         txt_descripcionCategoria.setText("");
     }
     
-    public void cargarRegistroCategoria()
+    public void cargarRegistroCategoria ()
     {
         int i = this.tablaCategorias.getSelectedRow();
         String idCategorias= this.tablaCategorias.getModel().getValueAt(i,0).toString();
@@ -65,14 +73,135 @@ public class AdminInventario extends javax.swing.JFrame {
         this.txt_nombreCategoria.setText(nombre);
         this.txt_descripcionCategoria.setText(descripciin);
     }
+    
+    // Panel Marca
+    
+    public void cargarMarca ()
+    {
+        marca marca = new marca();
+        marca.setConn(Control.getConn());
+        
+        this.modeloMarcas.setRowCount(0);
+        cbx_marcaProductos.removeAllItems();
+        try 
+        {
+            ResultSet st = marca.getMarca();
+            if(st != null)
+            {
+                while(st.next()) 
+                {
+                    cbx_marcaProductos.addItem(st.getObject(2).toString());
+                    String datos[] = 
+                    {
+                        st.getObject(1).toString(),
+                        st.getObject(2).toString(),
+                    };
+                    this.modeloMarcas.addRow(datos);
+                }
+            }
+        }
+        catch (SQLException ex) 
+        { 
+            JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
+        }
+    }
 
+    public void limpiarMarca ()
+    {
+        txt_idMarcas.setText("");
+        txt_nombreMarcas.setText("");
+    }
+    
+    public void cargarRegistroMarca ()
+    {
+        int i = this.tablaMarcas.getSelectedRow();
+        String idMarcas= this.tablaMarcas.getModel().getValueAt(i,0).toString();
+        String nombre= this.tablaMarcas.getModel().getValueAt(i,1).toString();
+        
+        this.txt_idMarcas.setText(idMarcas);
+        this.txt_nombreMarcas.setText(nombre);
+    }
+
+    // Métodos para Panel Productos
+    
+    public void cargarProductos ()
+    {
+        productos productos = new productos();
+        productos.setConn(Control.getConn());
+        
+        this.modeloProductos.setRowCount(0);
+        try 
+        {
+            ResultSet st = productos.getProductos();
+            if(st != null)
+            {
+                while(st.next()) 
+                {
+                    String datos[] = 
+                    {
+                        st.getObject(1).toString(),
+                        st.getObject(2).toString(),
+                        st.getObject(3).toString(),
+                        st.getObject(4).toString(),
+                        st.getObject(5).toString(),
+                        st.getObject(6).toString(),
+                        st.getObject(7).toString()
+                    };
+                    this.modeloProductos.addRow(datos);
+                }
+            }
+        }
+        catch (SQLException ex) 
+        { 
+            JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
+        }
+    }
+
+    public void limpiarProducto ()
+    {
+        txt_idProductos.setText("");
+        txt_nombreProductos.setText("");
+        txt_descripcionProductos.setText("");
+        txt_precio.setText("");
+        txt_cantidadProductos.setText("");
+        cbx_marcaProductos.setSelectedIndex(0);
+        cbx_tipoProductos.setSelectedIndex(0);
+    }
+    
+    public void cargarRegistroProducto()
+    {
+        int i = this.tablaProductos.getSelectedRow();
+        String idProducto= this.tablaProductos.getModel().getValueAt(i,0).toString();
+        String nombre= this.tablaProductos.getModel().getValueAt(i,1).toString();
+        String descripcion= this.tablaProductos.getModel().getValueAt(i,2).toString();
+        String precio= this.tablaProductos.getModel().getValueAt(i,3).toString();
+        String cantidad= this.tablaProductos.getModel().getValueAt(i,4).toString();
+        String marca= this.tablaProductos.getModel().getValueAt(i, 5).toString();
+        String tipo= this.tablaProductos.getModel().getValueAt(i, 6).toString();
+        
+        this.txt_idProductos.setText(idProducto);
+        this.txt_nombreProductos.setText(nombre);
+        this.txt_descripcionProductos.setText(descripcion);
+        this.txt_precio.setText(precio);
+        this.txt_cantidadProductos.setText(cantidad);
+        //falta el manejo de combobox
+        
+        cbx_marcaProductos.setSelectedItem(marca);
+        cbx_tipoProductos.setSelectedItem(tipo);
+    }
+    
+    
     /*
      * Creates new form AdminInventario
      */
     public AdminInventario() {
         initComponents();
-        modelo = (DefaultTableModel) this.tablaCategorias.getModel();
-        this.nuevo = true;
+        modeloCategorias = (DefaultTableModel) this.tablaCategorias.getModel();
+        modeloMarcas = (DefaultTableModel)this.tablaMarcas.getModel();
+        modeloProductos = (DefaultTableModel)this.tablaProductos.getModel();
+        this.nuevoTipo = true;
+        this.nuevoMarca = true;
+        this.nuevoProducto = true;
     }
 
     /**
@@ -138,7 +267,7 @@ public class AdminInventario extends javax.swing.JFrame {
         lbl_tipoProductos = new javax.swing.JLabel();
         cbx_tipoProductos = new javax.swing.JComboBox<>();
         jScrollPane4 = new javax.swing.JScrollPane();
-        txa_descripcionProductos = new javax.swing.JTextArea();
+        txt_descripcionProductos = new javax.swing.JTextArea();
         btn_guardarProductos = new javax.swing.JButton();
         btn_EliminarProductos = new javax.swing.JButton();
         bttn_volver2 = new javax.swing.JButton();
@@ -153,6 +282,7 @@ public class AdminInventario extends javax.swing.JFrame {
 
         panelCategoria.setBackground(new java.awt.Color(41, 38, 67));
 
+        tablaCategorias.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
         tablaCategorias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -164,6 +294,7 @@ public class AdminInventario extends javax.swing.JFrame {
                 "ID", "Nombre", "Descripción"
             }
         ));
+        tablaCategorias.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tablaCategorias.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaCategoriasMouseClicked(evt);
@@ -290,6 +421,7 @@ public class AdminInventario extends javax.swing.JFrame {
 
         panelMarcas.setBackground(new java.awt.Color(41, 38, 67));
 
+        tablaMarcas.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
         tablaMarcas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
@@ -301,6 +433,11 @@ public class AdminInventario extends javax.swing.JFrame {
                 "ID", "Nombre"
             }
         ));
+        tablaMarcas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMarcasMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tablaMarcas);
 
         lbl_id2.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
@@ -340,12 +477,22 @@ public class AdminInventario extends javax.swing.JFrame {
         btn_guardarMarcas.setForeground(new java.awt.Color(255, 255, 255));
         btn_guardarMarcas.setText("Guardar");
         btn_guardarMarcas.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_guardarMarcas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarMarcasActionPerformed(evt);
+            }
+        });
 
         btn_EliminarMarcas.setBackground(new java.awt.Color(201, 101, 0));
         btn_EliminarMarcas.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         btn_EliminarMarcas.setForeground(new java.awt.Color(255, 255, 255));
         btn_EliminarMarcas.setText("Eliminar");
         btn_EliminarMarcas.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_EliminarMarcas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_EliminarMarcasActionPerformed(evt);
+            }
+        });
 
         bttn_volver1.setBackground(new java.awt.Color(68, 66, 110));
         bttn_volver1.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
@@ -439,7 +586,7 @@ public class AdminInventario extends javax.swing.JFrame {
 
         panelProductos.setBackground(new java.awt.Color(41, 38, 67));
 
-        tablaProductos.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+        tablaProductos.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
         tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -451,6 +598,13 @@ public class AdminInventario extends javax.swing.JFrame {
                 "ID", "Nombre", "Descripción", "Precio", "Cantidad", "Marca", "Tipo"
             }
         ));
+        tablaProductos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+        tablaProductos.setAutoscrolls(false);
+        tablaProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaProductosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaProductos);
 
         lbl_idProductos.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
@@ -493,27 +647,32 @@ public class AdminInventario extends javax.swing.JFrame {
         lbl_tipoProductos.setText("Categoria:");
 
         cbx_tipoProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
-        cbx_tipoProductos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbx_tipoProductosActionPerformed(evt);
-            }
-        });
 
-        txa_descripcionProductos.setColumns(20);
-        txa_descripcionProductos.setRows(5);
-        jScrollPane4.setViewportView(txa_descripcionProductos);
+        txt_descripcionProductos.setColumns(20);
+        txt_descripcionProductos.setRows(5);
+        jScrollPane4.setViewportView(txt_descripcionProductos);
 
         btn_guardarProductos.setBackground(new java.awt.Color(201, 101, 0));
         btn_guardarProductos.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         btn_guardarProductos.setForeground(new java.awt.Color(255, 255, 255));
         btn_guardarProductos.setText("Guardar");
-        btn_guardarProductos.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_guardarProductos.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_guardarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarProductosActionPerformed(evt);
+            }
+        });
 
         btn_EliminarProductos.setBackground(new java.awt.Color(201, 101, 0));
         btn_EliminarProductos.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         btn_EliminarProductos.setForeground(new java.awt.Color(255, 255, 255));
         btn_EliminarProductos.setText("Eliminar");
-        btn_EliminarProductos.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_EliminarProductos.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_EliminarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_EliminarProductosActionPerformed(evt);
+            }
+        });
 
         bttn_volver2.setBackground(new java.awt.Color(68, 66, 110));
         bttn_volver2.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
@@ -536,47 +695,48 @@ public class AdminInventario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelProductosLayout.createSequentialGroup()
-                        .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelProductosLayout.createSequentialGroup()
-                                .addComponent(lbl_nombreProductos)
-                                .addGap(37, 37, 37)
-                                .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_nombreProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_idProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(84, 84, 84)
-                                .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl_precioProductos)
-                                    .addComponent(lbl_cantidadProductos))
-                                .addGap(20, 20, 20)
-                                .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txt_cantidadProductos)
-                                    .addComponent(txt_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panelProductosLayout.createSequentialGroup()
-                                .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl_descripcionProductos)
-                                    .addComponent(lbl_idProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelProductosLayout.createSequentialGroup()
-                                .addGap(84, 84, 84)
-                                .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl_tipoProductos)
-                                    .addComponent(lbl_marcaProductos))
-                                .addGap(15, 15, 15)
-                                .addComponent(cbx_marcaProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelProductosLayout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btn_EliminarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btn_guardarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(panelProductosLayout.createSequentialGroup()
-                        .addGap(681, 681, 681)
-                        .addComponent(cbx_tipoProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(bttn_volver2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 794, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 821, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelProductosLayout.createSequentialGroup()
+                            .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(panelProductosLayout.createSequentialGroup()
+                                    .addComponent(lbl_nombreProductos)
+                                    .addGap(37, 37, 37)
+                                    .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txt_nombreProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txt_idProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(84, 84, 84)
+                                    .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lbl_precioProductos)
+                                        .addComponent(lbl_cantidadProductos))
+                                    .addGap(20, 20, 20)
+                                    .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txt_cantidadProductos)
+                                        .addComponent(txt_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(panelProductosLayout.createSequentialGroup()
+                                    .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lbl_descripcionProductos)
+                                        .addComponent(lbl_idProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(panelProductosLayout.createSequentialGroup()
+                                    .addGap(84, 84, 84)
+                                    .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lbl_tipoProductos)
+                                        .addComponent(lbl_marcaProductos))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(cbx_marcaProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cbx_tipoProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(panelProductosLayout.createSequentialGroup()
+                                    .addGap(30, 30, 30)
+                                    .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(btn_EliminarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btn_guardarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelProductosLayout.createSequentialGroup()
+                            .addGap(711, 711, 711)
+                            .addComponent(bttn_volver2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelProductosLayout.setVerticalGroup(
@@ -588,21 +748,25 @@ public class AdminInventario extends javax.swing.JFrame {
                         .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_marcaProductos)
-                            .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lbl_idProductos)
-                                .addComponent(txt_idProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lbl_precioProductos)
-                                .addComponent(txt_precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cbx_marcaProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(19, 19, 19)
-                        .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lbl_nombreProductos)
-                            .addComponent(txt_nombreProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbl_cantidadProductos)
-                            .addComponent(txt_cantidadProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbl_tipoProductos)
-                            .addComponent(cbx_tipoProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelProductosLayout.createSequentialGroup()
+                                .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl_marcaProductos)
+                                    .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lbl_idProductos)
+                                        .addComponent(txt_idProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lbl_precioProductos)
+                                        .addComponent(txt_precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(19, 19, 19)
+                                .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lbl_nombreProductos)
+                                    .addComponent(txt_nombreProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbl_cantidadProductos)
+                                    .addComponent(txt_cantidadProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbl_tipoProductos)))
+                            .addGroup(panelProductosLayout.createSequentialGroup()
+                                .addComponent(cbx_marcaProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(19, 19, 19)
+                                .addComponent(cbx_tipoProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(31, 31, 31)
                         .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelProductosLayout.createSequentialGroup()
@@ -652,10 +816,6 @@ public class AdminInventario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbx_tipoProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_tipoProductosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbx_tipoProductosActionPerformed
-
     private void bttn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttn_volverActionPerformed
         menuPrincipalAdmin form = new menuPrincipalAdmin();
         form.Control = this.Control;
@@ -665,19 +825,21 @@ public class AdminInventario extends javax.swing.JFrame {
 
     private void bttn_volver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttn_volver1ActionPerformed
         menuPrincipalAdmin form = new menuPrincipalAdmin();
+        form.Control = this.Control;
         form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bttn_volver1ActionPerformed
 
     private void bttn_volver2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttn_volver2ActionPerformed
         menuPrincipalAdmin form = new menuPrincipalAdmin();
+        form.Control = this.Control;
         form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bttn_volver2ActionPerformed
 
     private void tablaCategoriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCategoriasMouseClicked
         cargarRegistroCategoria();
-        this.nuevo = false;
+        this.nuevoTipo = false;
     }//GEN-LAST:event_tablaCategoriasMouseClicked
 
     private void btn_guardarCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarCategoriasActionPerformed
@@ -689,13 +851,13 @@ public class AdminInventario extends javax.swing.JFrame {
         }
         else
         {
-            if (this.nuevo)
+            if (this.nuevoTipo)
             {
                 tipo_producto tipo = new tipo_producto( nombrecat, drescripcioncat, this.Control.getConn());
                 tipo.guardarTipoProducto();
                 limpiarCategoria();
                 cargarCategorias();
-                this.nuevo = true;
+                this.nuevoTipo = true;
             }
             else 
             {
@@ -703,7 +865,7 @@ public class AdminInventario extends javax.swing.JFrame {
                 tipo.modificarTipoProducto();
                 limpiarCategoria();
                 cargarCategorias();
-                this.nuevo = true;
+                this.nuevoTipo = true;
             }
         }
     }//GEN-LAST:event_btn_guardarCategoriasActionPerformed
@@ -720,6 +882,143 @@ public class AdminInventario extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_btn_EliminarCategoriasActionPerformed
+
+    private void btn_guardarMarcasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarMarcasActionPerformed
+        String nombreMarca = txt_nombreMarcas.getText();
+        if(nombreMarca.isEmpty())
+        {   
+            JOptionPane.showMessageDialog(null, "Asegurate de haber ingresado el nombre");       
+        }
+        else
+        {
+            if (this.nuevoMarca)
+            {
+                marca marca = new marca( nombreMarca, this.Control.getConn());
+                marca.guardarMarca();
+                limpiarMarca();
+                cargarMarca();
+                this.nuevoMarca = true;
+            }
+            else 
+            {
+                marca marca = new marca(Integer.parseInt(txt_idMarcas.getText()), nombreMarca, this.Control.getConn());
+                marca.modificarMarca();
+                limpiarMarca();
+                cargarMarca();
+                this.nuevoMarca = true;
+            }
+        }
+    }//GEN-LAST:event_btn_guardarMarcasActionPerformed
+
+    private void btn_EliminarMarcasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarMarcasActionPerformed
+        int resultado= JOptionPane.showConfirmDialog(this, "Desea borrar el registro?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if(resultado==JOptionPane.YES_OPTION) {
+            marca marca= new marca();
+            marca.setConn(this.Control.getConn());
+            marca.setId_marca(Integer.parseInt(this.txt_idMarcas.getText()));
+            marca.borrarMarca();
+            this.limpiarMarca();
+            this.cargarMarca();
+        }
+    }//GEN-LAST:event_btn_EliminarMarcasActionPerformed
+
+    private void tablaMarcasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMarcasMouseClicked
+        cargarRegistroMarca();
+        this.nuevoMarca = false;
+    }//GEN-LAST:event_tablaMarcasMouseClicked
+
+    private void btn_guardarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarProductosActionPerformed
+        String idProducto= txt_idProductos.getText();
+        String nombre= txt_nombreProductos.getText();
+        String descripcion= txt_descripcionProductos.getText();
+        Double precio= Double.valueOf(txt_precio.getText());
+        int cantidad= Integer.parseInt(txt_cantidadProductos.getText());
+        String marca= cbx_marcaProductos.getSelectedItem().toString();
+        String tipo= cbx_tipoProductos.getSelectedItem().toString(); 
+        int idMarca = 0;
+        int idTipo = 0;
+        
+        try
+        {
+            marca Omarca = new marca();
+            Omarca.setConn(this.Control.getConn());
+            ResultSet listaMarcas = Omarca.getMarca();
+            if(listaMarcas != null)
+            {
+                while(listaMarcas.next()) 
+                {
+                    int posibleIdMarca= Integer.parseInt(listaMarcas.getObject(1).toString());
+                    String posibleMarca = listaMarcas.getObject(2).toString();
+                    if(posibleMarca.equals(marca))
+                    {
+                        idMarca = posibleIdMarca;
+                    }
+                }
+            }
+
+            tipo_producto Otipoproducto = new tipo_producto();
+            Otipoproducto.setConn(this.Control.getConn());
+            ResultSet listaTipos = Otipoproducto.getTipoProducto();
+            if(listaTipos != null)
+            {
+                while(listaTipos.next()) 
+                {
+                    int posibleIdTipo = Integer.parseInt(listaTipos.getObject(1).toString());
+                    String posibleTipo = listaTipos.getObject(2).toString();
+                    if(posibleTipo.equals(tipo))
+                    {
+                        idTipo = posibleIdTipo;
+                    }
+                }
+            }
+        }
+        catch(Exception ee)
+        {
+            JOptionPane.showMessageDialog(null, ee);     
+        }
+
+       
+        if(nombre.isEmpty() || precio <= 0|| marca.isEmpty() || tipo.isEmpty() || cantidad <= 0 || idMarca == 0 || idTipo == 0)
+        {   
+            JOptionPane.showMessageDialog(null, "Asegurate de haber ingresado todos los datos");       
+        }
+        else
+        {
+            if (this.nuevoProducto)
+            {
+                productos producto = new productos( nombre, descripcion, precio, cantidad, idMarca, idTipo, this.Control.getConn());
+                producto.guardarProductos();
+                limpiarProducto();
+                cargarProductos();
+                this.nuevoProducto = true;
+            }
+            else 
+            {
+                productos producto = new productos(Integer.parseInt(txt_idProductos.getText()), nombre, descripcion, precio, cantidad, idMarca, idTipo, this.Control.getConn());
+                producto.modificarProductos();
+                limpiarProducto();
+                cargarProductos();
+                this.nuevoProducto = true;
+            }
+        }
+    }//GEN-LAST:event_btn_guardarProductosActionPerformed
+
+    private void btn_EliminarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarProductosActionPerformed
+        int resultado= JOptionPane.showConfirmDialog(this, "Desea borrar el registro?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if(resultado==JOptionPane.YES_OPTION) {
+            productos producto= new productos();
+            producto.setConn(this.Control.getConn());
+            producto.setIdProducto(Integer.parseInt(this.txt_idProductos.getText()));
+            producto.borrarProductos();
+            this.limpiarProducto();
+            this.cargarProductos();
+        }
+    }//GEN-LAST:event_btn_EliminarProductosActionPerformed
+
+    private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosMouseClicked
+        cargarRegistroProducto();
+        this.nuevoProducto = false;
+    }//GEN-LAST:event_tablaProductosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -803,9 +1102,9 @@ public class AdminInventario extends javax.swing.JFrame {
     private javax.swing.JTable tablaCategorias;
     private javax.swing.JTable tablaMarcas;
     private javax.swing.JTable tablaProductos;
-    private javax.swing.JTextArea txa_descripcionProductos;
     private javax.swing.JTextField txt_cantidadProductos;
     private javax.swing.JTextArea txt_descripcionCategoria;
+    private javax.swing.JTextArea txt_descripcionProductos;
     private javax.swing.JTextField txt_id2;
     private javax.swing.JTextField txt_idCategoria;
     private javax.swing.JTextField txt_idMarcas;

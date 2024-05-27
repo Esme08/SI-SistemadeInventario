@@ -1,6 +1,12 @@
 package sistema_los_amigos.Formularios.formAdmin;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import sistema_los_amigos.Sistema_Los_Amigos;
+import sistema_los_amigos.clientes;
+import sistema_los_amigos.empleados;
 
 /*
  * @author esmer
@@ -8,12 +14,73 @@ import sistema_los_amigos.Sistema_Los_Amigos;
 
 public class AdminEmppleados extends javax.swing.JFrame {
     Sistema_Los_Amigos Control = new Sistema_Los_Amigos();
-
+    DefaultTableModel modeloEmpleado;
+    boolean nuevoEmpleado;
+    
+    public void cargarEmpleados ()
+    {
+        empleados empleados = new empleados();
+        empleados.setConn(Control.getConn());
+        this.modeloEmpleado.setRowCount(0);
+        try 
+        {
+            ResultSet st = empleados.getEmpleados();
+            if(st != null)
+            {
+                while(st.next()) 
+                {
+                    String datos[] = 
+                    {
+                        st.getObject(1).toString(),
+                        st.getObject(2).toString(),
+                        st.getObject(3).toString(),
+                        st.getObject(4).toString(),
+                        st.getObject(5).toString(),
+                        st.getObject(6).toString()
+                    };
+                    this.modeloEmpleado.addRow(datos);
+                }
+            }
+        }
+        catch (SQLException ex) 
+        { 
+            JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
+        }
+    }
+    
+    public void limpiarEmpleados ()
+    {
+        txt_ID.setText("");
+        txt_nombre.setText("");
+        txt_telefono.setText("");
+        txt_DUI.setText("");
+        cbx_usuariotipo.setSelectedIndex(0);
+    }
+    
+    public void cargarRegistroEmpleados()
+    {
+        int i = this.TablaEmpleados.getSelectedRow();
+        String idEmpleado= this.TablaEmpleados.getModel().getValueAt(i,0).toString();
+        String nombre= this.TablaEmpleados.getModel().getValueAt(i,1).toString();
+        String telefono= this.TablaEmpleados.getModel().getValueAt(i,2).toString();
+        String dui= this.TablaEmpleados.getModel().getValueAt(i,3).toString();
+        String TipoUsuario= this.TablaEmpleados.getModel().getValueAt(i,4).toString();
+        
+        this.txt_ID.setText(idEmpleado);
+        this.txt_nombre.setText(nombre);
+        this.txt_telefono.setText(telefono);
+        this.txt_DUI.setText(dui);
+        this.cbx_usuariotipo.setSelectedItem(TipoUsuario);
+    }
+    
+    
     /**
      * Creates new form AdminEmppleados
      */
     public AdminEmppleados() {
         initComponents();
+        modeloEmpleado = (DefaultTableModel) this.TablaEmpleados.getModel();
+        this.nuevoEmpleado = true;
     }
 
     /**
@@ -87,6 +154,11 @@ public class AdminEmppleados extends javax.swing.JFrame {
         bttn_guardar.setForeground(new java.awt.Color(255, 255, 255));
         bttn_guardar.setText("Guardar");
         bttn_guardar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bttn_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttn_guardarActionPerformed(evt);
+            }
+        });
 
         bttn_eliminar.setBackground(new java.awt.Color(201, 101, 0));
         bttn_eliminar.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
@@ -111,6 +183,11 @@ public class AdminEmppleados extends javax.swing.JFrame {
                 "ID", "Nombre", "Teléfono", "DUI", "Tipo de usuario", "Permisos"
             }
         ));
+        TablaEmpleados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaEmpleadosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TablaEmpleados);
 
         bttn_volver.setBackground(new java.awt.Color(68, 66, 110));
@@ -129,7 +206,7 @@ public class AdminEmppleados extends javax.swing.JFrame {
         jLabel5.setText("Usuario:");
 
         cbx_usuariotipo.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
-        cbx_usuariotipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        cbx_usuariotipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "administrador", "empleado" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -160,14 +237,13 @@ public class AdminEmppleados extends javax.swing.JFrame {
                         .addGap(38, 38, 38)
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bttn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(cbx_usuariotipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(bttn_guardar, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
-                                .addGap(106, 106, 106)
-                                .addComponent(bttn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(bttn_eliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(cbx_usuariotipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bttn_guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(106, 106, 106)
+                        .addComponent(bttn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(222, 222, 222))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -239,14 +315,70 @@ public class AdminEmppleados extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bttn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttn_eliminarActionPerformed
-        // TODO add your handling code here:
+        int resultado= JOptionPane.showConfirmDialog(this, "Desea borrar el registro?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if(resultado==JOptionPane.YES_OPTION) 
+        {
+            empleados empleados= new empleados();
+            empleados.setConn(this.Control.getConn());
+            empleados.setIdEmpleado(Integer.parseInt(this.txt_ID.getText()));
+            empleados.borrarEmpleados();
+            this.limpiarEmpleados();
+            this.cargarEmpleados();
+        }
     }//GEN-LAST:event_bttn_eliminarActionPerformed
 
     private void bttn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttn_volverActionPerformed
         menuPrincipalAdmin form = new menuPrincipalAdmin();
+        form.Control = this.Control;
         form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bttn_volverActionPerformed
+
+    private void TablaEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaEmpleadosMouseClicked
+        cargarRegistroEmpleados();
+        nuevoEmpleado = false;
+    }//GEN-LAST:event_TablaEmpleadosMouseClicked
+
+    private void bttn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttn_guardarActionPerformed
+        String nombreEmpleado = txt_nombre.getText();
+        String telefono = txt_telefono.getText();
+        String dui = txt_DUI.getText();
+        String tipousuario = cbx_usuariotipo.getSelectedItem().toString();
+        int idTipoUsuario =0;
+        
+        if (tipousuario =="administrador")
+        {
+            idTipoUsuario = 1;
+        }
+        if (tipousuario =="empleado")
+        {
+            idTipoUsuario = 2;
+        }
+        
+        if(nombreEmpleado.isEmpty() || idTipoUsuario <= 0)
+        {   
+            JOptionPane.showMessageDialog(null, "Asegurate de haber ingresado el nombre y el tipo de usuario");       
+        }
+        else
+        {
+            if (this.nuevoEmpleado)
+            {
+                empleados empleados = new empleados( nombreEmpleado, telefono,dui,idTipoUsuario, this.Control.getConn());
+                empleados.guardarEmpleados();
+                limpiarEmpleados();
+                cargarEmpleados();
+                this.nuevoEmpleado = true;
+            }
+            else 
+            {
+                empleados empleados = new empleados(Integer.parseInt(txt_ID.getText()), nombreEmpleado, telefono,dui,idTipoUsuario, this.Control.getConn());
+                empleados.modificarEmpleados();
+                limpiarEmpleados();
+                cargarEmpleados();
+                this.nuevoEmpleado = true;
+            }
+        }
+    }//GEN-LAST:event_bttn_guardarActionPerformed
 
     /**
      * @param args the command line arguments

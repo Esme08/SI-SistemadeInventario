@@ -236,6 +236,7 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
         AdminCliente form = new AdminCliente();
         form.Control = this.Control;
         form.setVisible(true);
+        form.cargarClientes();
         this.dispose();
     }//GEN-LAST:event_btn_adminClientesActionPerformed
 
@@ -243,6 +244,7 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
         AdminEmppleados form = new AdminEmppleados();
         form.Control = this.Control;
         form.setVisible(true);
+        form.cargarEmpleados();
         this.dispose();
     }//GEN-LAST:event_btn_adminPersonalActionPerformed
 

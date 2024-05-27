@@ -1,6 +1,11 @@
 package sistema_los_amigos.Formularios.formAdmin;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import sistema_los_amigos.Sistema_Los_Amigos;
+import sistema_los_amigos.clientes;
 
 /*
  * @author esmer
@@ -8,12 +13,65 @@ import sistema_los_amigos.Sistema_Los_Amigos;
 
 public class AdminCliente extends javax.swing.JFrame {
     Sistema_Los_Amigos Control = new Sistema_Los_Amigos();
+    DefaultTableModel modeloClientes;
+    boolean nuevoCliente;
+    
+    //métodos para Clientes
+    public void cargarClientes ()
+    {
+        clientes clientes = new clientes();
+        clientes.setConn(Control.getConn());
+        this.modeloClientes.setRowCount(0);
+        try 
+        {
+            ResultSet st = clientes.getClientes();
+            if(st != null)
+            {
+                while(st.next()) 
+                {
+                    String datos[] = 
+                    {
+                        st.getObject(1).toString(),
+                        st.getObject(2).toString(),
+                        st.getObject(3).toString()
+                    };
+                    this.modeloClientes.addRow(datos);
+                }
+            }
+        }
+        catch (SQLException ex) 
+        { 
+            JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
+        }
+    }
+    
+    public void limpiarCliente ()
+    {
+        txt_id.setText("");
+        txt_nombre.setText("");
+        txt_correo.setText("");
+    }
+    
+    public void cargarRegistroClientes ()
+    {
+        int i = this.TablaClientes.getSelectedRow();
+        String idCliente= this.TablaClientes.getModel().getValueAt(i,0).toString();
+        String nombre= this.TablaClientes.getModel().getValueAt(i,1).toString();
+        String correo= this.TablaClientes.getModel().getValueAt(i,2).toString();
+        
+        this.txt_id.setText(idCliente);
+        this.txt_nombre.setText(nombre);
+        this.txt_correo.setText(correo);
+    }
+    
 
     /**
      * Creates new form AdminCliente
      */
     public AdminCliente() {
         initComponents();
+        modeloClientes = (DefaultTableModel) this.TablaClientes.getModel();
+        this.nuevoCliente = true;
     }
 
     /**
@@ -68,6 +126,11 @@ public class AdminCliente extends javax.swing.JFrame {
         btn_guardar.setForeground(new java.awt.Color(255, 255, 255));
         btn_guardar.setText("Guardar");
         btn_guardar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarActionPerformed(evt);
+            }
+        });
 
         lbl_correo.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         lbl_correo.setForeground(new java.awt.Color(255, 255, 255));
@@ -80,6 +143,11 @@ public class AdminCliente extends javax.swing.JFrame {
         btn_eliminar.setForeground(new java.awt.Color(255, 255, 255));
         btn_eliminar.setText("Eliminar");
         btn_eliminar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
 
         TablaClientes.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         TablaClientes.setModel(new javax.swing.table.DefaultTableModel(
@@ -99,6 +167,11 @@ public class AdminCliente extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        TablaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaClientesMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(TablaClientes);
@@ -200,9 +273,56 @@ public class AdminCliente extends javax.swing.JFrame {
 
     private void bttn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttn_volverActionPerformed
         menuPrincipalAdmin form = new menuPrincipalAdmin();
+        form.Control = this.Control;
         form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bttn_volverActionPerformed
+
+    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+        String nombreCliente = txt_nombre.getText();
+        String correo = txt_correo.getText();
+        if(nombreCliente.isEmpty() || correo.isEmpty())
+        {   
+            JOptionPane.showMessageDialog(null, "Asegurate de haber ingresado el nombre");       
+        }
+        else
+        {
+            if (this.nuevoCliente)
+            {
+                clientes cliente = new clientes( nombreCliente, correo, this.Control.getConn());
+                cliente.guardarClientes();
+                limpiarCliente();
+                cargarClientes();
+                this.nuevoCliente = true;
+            }
+            else 
+            {
+                clientes cliente = new clientes(Integer.parseInt(txt_id.getText()), nombreCliente, correo, this.Control.getConn());
+                cliente.modificarClientes();
+                limpiarCliente();
+                cargarClientes();
+                this.nuevoCliente = true;
+            }
+        }
+    }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void TablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaClientesMouseClicked
+        cargarRegistroClientes();
+        this.nuevoCliente = false;
+    }//GEN-LAST:event_TablaClientesMouseClicked
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        int resultado= JOptionPane.showConfirmDialog(this, "Desea borrar el registro?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if(resultado==JOptionPane.YES_OPTION) 
+        {
+            clientes cliente= new clientes();
+            cliente.setConn(this.Control.getConn());
+            cliente.setIdCliente(Integer.parseInt(this.txt_id.getText()));
+            cliente.borrarClientes();
+            this.limpiarCliente();
+            this.cargarClientes();
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
 
     /**
      * @param args the command line arguments

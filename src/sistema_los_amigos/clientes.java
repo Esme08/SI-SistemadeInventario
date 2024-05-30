@@ -7,14 +7,8 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author lauut
- */
+* @author lauut
+*/
 public class clientes {
     private int idCliente;
     private String nombre;
@@ -48,6 +42,21 @@ public class clientes {
            String orden = "SELECT * FROM clientes;";
            Statement stm =  this.conn.conn.createStatement();
            return stm.executeQuery(orden);
+        }
+        catch(Exception e) 
+        {
+           return null;
+        }
+    }
+    
+    public ResultSet getClientes(String Cliente) 
+    {
+        try 
+        {
+           String orden = "SELECT * FROM clientes WHERE nombre LIKE ?";
+           PreparedStatement stm = this.conn.conn.prepareStatement(orden);
+           stm.setString(1, "%" + Cliente + "%");
+           return stm.executeQuery();
         }
         catch(Exception e) 
         {

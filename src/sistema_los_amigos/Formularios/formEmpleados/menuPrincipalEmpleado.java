@@ -4,6 +4,7 @@
  */
 package sistema_los_amigos.Formularios.formEmpleados;
 
+import sistema_los_amigos.FormulariosComunes.IniciarVenta;
 import sistema_los_amigos.Formularios.formAdmin.*;
 import sistema_los_amigos.Sistema_Los_Amigos;
 

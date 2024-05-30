@@ -1,5 +1,6 @@
 package sistema_los_amigos.Formularios.formAdmin;
 
+import sistema_los_amigos.FormulariosComunes.IniciarVenta;
 import sistema_los_amigos.Sistema_Los_Amigos;
 
 /**
@@ -228,8 +229,10 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
 
     private void btn_registrarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarVentasActionPerformed
         IniciarVenta form = new IniciarVenta();
+        form.setControl(Control);
+        form.cargarClientes();
+        form.cargarEmpleados();
         form.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btn_registrarVentasActionPerformed
 
     private void btn_adminClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adminClientesActionPerformed

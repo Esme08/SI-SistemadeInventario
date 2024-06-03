@@ -6,11 +6,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
  *
  * @author lauut
@@ -44,13 +39,14 @@ public class detalles_ventas {
         
     }
     
-    public ResultSet getDetalleVentas() 
+    public ResultSet getDetalleVentas(int idVenta) 
     {
         try 
         {
-           String orden = " SELECT * FROM detalles_ventas" ;
-           Statement stm =  this.conn.conn.createStatement();
-           return stm.executeQuery(orden);
+           String orden = "SELECT productos.nombre, detalles_venta.cantidad_vendida, productos.precio FROM detalles_venta JOIN productos ON productos.idProducto = detalles_venta.id_producto WHERE detalles_venta.id_venta = ?" ;
+           PreparedStatement stm = this.conn.conn.prepareStatement(orden);
+           stm.setInt(1, idVenta);
+           return stm.executeQuery();
         }
         catch(Exception e) 
         {
@@ -63,7 +59,7 @@ public class detalles_ventas {
        
         try 
         {
-            String query = "INSERT INTO detalles_ventas(id_venta, id_producto, cantidad_vendida)" 
+            String query = "INSERT INTO detalles_venta(id_venta, id_producto, cantidad_vendida)" 
             +  "VALUES(?, ?, ?)";
             PreparedStatement pst = this.conn.conn.prepareStatement(query);
             pst.setInt(1, this.id_venta);
@@ -84,7 +80,7 @@ public class detalles_ventas {
             try 
             {
                 String orden = 
-                "UPDATE detalles_ventas SET id_venta=?, id_producto=?, cantidad_vendida=?" + "WHERE iddetalles_venta=?";
+                "UPDATE detalles_venta SET id_venta=?, id_producto=?, cantidad_vendida=?" + "WHERE iddetalles_venta=?";
                 PreparedStatement pst = this.conn.conn.prepareStatement(orden);
                 pst.setInt(1, this.id_venta);
                 pst.setInt(2, this.id_producto);
@@ -103,7 +99,7 @@ public class detalles_ventas {
     {
         try 
         {
-            String orden= "DELETE FROM detalles_ventas WHERE iddetalles_venta=?";
+            String orden= "DELETE FROM detalles_venta WHERE iddetalles_venta=?";
             PreparedStatement pst = this.conn.conn.prepareStatement(orden);
             pst.setInt(1, this.iddetalles_venta);
             pst.execute();

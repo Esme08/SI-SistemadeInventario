@@ -42,11 +42,11 @@ public class ventas {
         
     }
     
-    public ResultSet getVentas() 
+    public ResultSet getVentasHoy() 
     {
         try 
         {
-           String orden = " SELECT * FROM ventas" ;
+           String orden = "SELECT ventas.idventas, clientes.nombre, empleados.nombre, ventas.fecha, ventas.total FROM ventas JOIN clientes ON clientes.idCliente = ventas.id_cliente JOIN empleados ON empleados.idEmpleado = ventas.id_empleado WHERE STR_TO_DATE(ventas.fecha, '%d/%m/%Y') = CURDATE();" ;
            Statement stm =  this.conn.conn.createStatement();
            return stm.executeQuery(orden);
         }
@@ -56,24 +56,91 @@ public class ventas {
         }
     }
     
-    public void guardarVentas() 
+    public ResultSet getVentasUnaSemana() 
     {
-       
+        try 
+        {
+           String orden = "SELECT ventas.idventas, clientes.nombre, empleados.nombre, ventas.fecha, ventas.total FROM ventas JOIN clientes ON clientes.idCliente = ventas.id_cliente JOIN empleados ON empleados.idEmpleado = ventas.id_empleado WHERE STR_TO_DATE(ventas.fecha, '%d/%m/%Y') >= CURDATE()-7;" ;
+           Statement stm =  this.conn.conn.createStatement();
+           return stm.executeQuery(orden);
+        }
+        catch(Exception e) 
+        {
+           return null;
+        }
+    }
+    
+    public ResultSet getVentasUnMes() 
+    {
+        try 
+        {
+           String orden = "SELECT ventas.idventas, clientes.nombre, empleados.nombre, ventas.fecha, ventas.total FROM ventas JOIN clientes ON clientes.idCliente = ventas.id_cliente JOIN empleados ON empleados.idEmpleado = ventas.id_empleado WHERE STR_TO_DATE(ventas.fecha, '%d/%m/%Y') >= CURDATE()-30" ;
+           Statement stm =  this.conn.conn.createStatement();
+           return stm.executeQuery(orden);
+        }
+        catch(Exception e) 
+        {
+           return null;
+        }
+    }
+    
+    
+    
+    public ResultSet getVentasPorCliente(String NombreCliente) 
+    {
+        try 
+        {
+           String orden = "SELECT ventas.idventas, clientes.nombre, empleados.nombre, ventas.fecha, ventas.total FROM ventas JOIN clientes on clientes.idCliente = ventas.id_cliente JOIN empleados ON empleados.idEmpleado = ventas.id_empleado WHERE clientes.nombre LIKE ?" ;
+           PreparedStatement stm = this.conn.conn.prepareStatement(orden);
+           stm.setString(1, "%" + NombreCliente + "%");
+           return stm.executeQuery();
+        }
+        catch(Exception e) 
+        {
+           return null;
+        }
+    }
+    
+    public ResultSet getVentasPorEmpleado(String NombreEmpleado) 
+    {
+        try 
+        {
+           String orden = "SELECT ventas.idventas, clientes.nombre, empleados.nombre, ventas.fecha, ventas.total FROM ventas JOIN clientes on clientes.idCliente = ventas.id_cliente JOIN empleados ON empleados.idEmpleado = ventas.id_empleado WHERE empleados.nombre LIKE ?" ;
+           PreparedStatement stm = this.conn.conn.prepareStatement(orden);
+           stm.setString(1, "%" + NombreEmpleado + "%");
+           return stm.executeQuery();
+        }
+        catch(Exception e) 
+        {
+           return null;
+        }
+    }
+    
+    public int guardarVentas() 
+    {
+        int Id = -1;
         try 
         {
             String query = "INSERT INTO ventas(id_cliente, id_empleado, fecha, total)" 
             +  "VALUES(?, ?, ?, ?)";
-            PreparedStatement pst = this.conn.conn.prepareStatement(query);
+            PreparedStatement pst = this.conn.conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             pst.setInt(1, this.id_cliente);
             pst.setInt(2, this.id_empleado);
             pst.setString(3, this.fecha);
             pst.setDouble(4, this.total);
-            pst.execute();
+            pst.executeUpdate();
+            
+            ResultSet generatedKeys = pst.getGeneratedKeys();
+            if (generatedKeys.next()) 
+            {
+                Id = generatedKeys.getInt(1);
+            }
         }
         catch (Exception ee) 
         { 
            JOptionPane.showMessageDialog(null, ee);
         }   
+        return Id;
     }
 
     public void modificarVentas() 

@@ -1,6 +1,12 @@
 package sistema_los_amigos.Formularios.formAdmin;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import sistema_los_amigos.Sistema_Los_Amigos;
+import sistema_los_amigos.detalles_ventas;
+import sistema_los_amigos.ventas;
 
 /*
  * @author esmer
@@ -8,12 +14,136 @@ import sistema_los_amigos.Sistema_Los_Amigos;
 
 public class AdminVentas extends javax.swing.JFrame {
     Sistema_Los_Amigos Control = new Sistema_Los_Amigos();
+    DefaultTableModel modeloVenta;
+    DefaultTableModel modeloDetalle;
+    int Totalazo = 0;
+    
+    public void cargarVentas (String Intervalo)
+    {
+        try 
+        {
+            if(Intervalo.equals("Hoy"))
+            {
+                Totalazo = 0;
+                ventas ventas = new ventas();
+                ventas.setConn(Control.getConn());
+                this.modeloVenta.setRowCount(0);
+                ResultSet st = ventas.getVentasHoy();
+                if(st != null)
+                {
+                    while(st.next()) 
+                    {
+                        String datos[] = 
+                        {
+                            st.getObject(1).toString(),
+                            st.getObject(2).toString(),
+                            st.getObject(3).toString(),
+                            st.getObject(4).toString(),
+                            st.getObject(5).toString()
+                        };
+                        this.modeloVenta.addRow(datos);
+                        
+                        Totalazo += Double.valueOf(st.getObject(5).toString());
+                        txt_totalvendido.setText("$" + String.valueOf(Totalazo));
+                    }
+                }
+            }
+                
+            if(Intervalo.equals("Esta semana"))
+            {
+                Totalazo = 0;
+                ventas ventas = new ventas();
+                ventas.setConn(Control.getConn());
+                this.modeloVenta.setRowCount(0);
+                ResultSet st = ventas.getVentasUnaSemana();
+                if(st != null)
+                {
+                    while(st.next()) 
+                    {
+                        String datos[] = 
+                        {
+                            st.getObject(1).toString(),
+                            st.getObject(2).toString(),
+                            st.getObject(3).toString(),
+                            st.getObject(4).toString(),
+                            st.getObject(5).toString()
+                        };
+                        this.modeloVenta.addRow(datos);
+                        
+                        Totalazo += Double.valueOf(st.getObject(5).toString());
+                        txt_totalvendido.setText("$"+String.valueOf(Totalazo));
+                    }
+                }
+            }
+            
+            if(Intervalo.equals("Este mes"))
+            {
+                Totalazo = 0;
+                ventas ventas = new ventas();
+                ventas.setConn(Control.getConn());
+                this.modeloVenta.setRowCount(0);
+                ResultSet st = ventas.getVentasUnMes();
+                if(st != null)
+                {
+                    while(st.next()) 
+                    {
+                        String datos[] = 
+                        {
+                            st.getObject(1).toString(),
+                            st.getObject(2).toString(),
+                            st.getObject(3).toString(),
+                            st.getObject(4).toString(),
+                            st.getObject(5).toString()
+                        };
+                        this.modeloVenta.addRow(datos);
+                        
+                        Totalazo += Double.valueOf(st.getObject(5).toString());
+                        txt_totalvendido.setText("$"+String.valueOf(Totalazo));
+                    }
+                }
+            }
+        }
+        catch (SQLException ex) 
+        { 
+            JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
+        }
+    }
+    
+    public void cargarDetalles (int ID)
+    {
+        detalles_ventas detalles_ventas = new detalles_ventas();
+        detalles_ventas.setConn(Control.getConn());
+        this.modeloDetalle.setRowCount(0);
+        try 
+        {
+            ResultSet st = detalles_ventas.getDetalleVentas(ID);
+            if(st != null)
+            {
+                while(st.next()) 
+                {
+                    String datos[] = 
+                    {
+                        st.getObject(1).toString(),
+                        st.getObject(2).toString(),
+                        st.getObject(3).toString(),
+                    };
+                    this.modeloDetalle.addRow(datos);
+                }
+            }
+        }
+        catch (SQLException ex) 
+        { 
+            JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
+        }
+    }
 
     /**
      * Creates new form AdminVentas
      */
     public AdminVentas() {
         initComponents();
+        modeloVenta = (DefaultTableModel) this.TablaVentas.getModel();
+        modeloDetalle = (DefaultTableModel) this.TablaDetalle.getModel();
     }
 
     /**
@@ -42,7 +172,7 @@ public class AdminVentas extends javax.swing.JFrame {
         lbl_buscar = new javax.swing.JLabel();
         lbl_tipobusqueda = new javax.swing.JLabel();
         txt_parametrobusqueda = new javax.swing.JTextField();
-        btn_guardarProductos = new javax.swing.JButton();
+        btn_buscr = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -66,17 +196,19 @@ public class AdminVentas extends javax.swing.JFrame {
                 "ID", "Cliente", "Empleado", "Fecha", "Total"
             }
         ));
+        TablaVentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaVentasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TablaVentas);
 
         TablaDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Producto", "Cantidad"
+                "Producto", "Cantidad", "Precio"
             }
         ));
         jScrollPane2.setViewportView(TablaDetalle);
@@ -87,6 +219,11 @@ public class AdminVentas extends javax.swing.JFrame {
 
         cbx_periodo.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         cbx_periodo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hoy", "Esta semana", "Este mes" }));
+        cbx_periodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbx_periodoActionPerformed(evt);
+            }
+        });
 
         txt_totalvendido.setEditable(false);
         txt_totalvendido.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
@@ -100,6 +237,11 @@ public class AdminVentas extends javax.swing.JFrame {
         btn_limpiar.setForeground(new java.awt.Color(255, 255, 255));
         btn_limpiar.setText("Limpiar");
         btn_limpiar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_limpiarActionPerformed(evt);
+            }
+        });
 
         bttn_volver.setBackground(new java.awt.Color(68, 66, 110));
         bttn_volver.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
@@ -113,7 +255,7 @@ public class AdminVentas extends javax.swing.JFrame {
         });
 
         cbx_buscar.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
-        cbx_buscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Cliente", "Empleado" }));
+        cbx_buscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Empleado" }));
 
         lbl_buscar.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         lbl_buscar.setForeground(new java.awt.Color(255, 255, 255));
@@ -126,11 +268,16 @@ public class AdminVentas extends javax.swing.JFrame {
 
         txt_parametrobusqueda.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
 
-        btn_guardarProductos.setBackground(new java.awt.Color(201, 101, 0));
-        btn_guardarProductos.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
-        btn_guardarProductos.setForeground(new java.awt.Color(255, 255, 255));
-        btn_guardarProductos.setText("Buscar");
-        btn_guardarProductos.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_buscr.setBackground(new java.awt.Color(201, 101, 0));
+        btn_buscr.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+        btn_buscr.setForeground(new java.awt.Color(255, 255, 255));
+        btn_buscr.setText("Buscar");
+        btn_buscr.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_buscr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_buscrActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -161,7 +308,7 @@ public class AdminVentas extends javax.swing.JFrame {
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(txt_parametrobusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(btn_guardarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(btn_buscr, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -186,7 +333,6 @@ public class AdminVentas extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lbl_buscar)
                         .addComponent(cbx_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -196,11 +342,11 @@ public class AdminVentas extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbl_tipobusqueda)
                             .addComponent(txt_parametrobusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_guardarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_buscr, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(23, 23, 23))
         );
 
@@ -237,9 +383,102 @@ public class AdminVentas extends javax.swing.JFrame {
 
     private void bttn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttn_volverActionPerformed
         menuPrincipalAdmin form = new menuPrincipalAdmin();
+        form.Control = this.Control;
         form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bttn_volverActionPerformed
+
+    private void btn_buscrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscrActionPerformed
+        String Parametro = txt_parametrobusqueda.getText();
+        String TipoBusqueda = cbx_buscar.getSelectedItem().toString();
+        
+        if(Parametro.isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Ingresa un parámetro por favor");
+        }
+        else
+        {
+            if(TipoBusqueda.equals("Cliente") )
+            {
+                try
+                {
+                    ventas ventas = new ventas();
+                    ventas.setConn(Control.getConn());
+                    this.modeloVenta.setRowCount(0);
+                    ResultSet st = ventas.getVentasPorCliente(Parametro);
+                    if(st != null)
+                    {
+                        while(st.next()) 
+                        {
+                            String datos[] = 
+                            {
+                                st.getObject(1).toString(),
+                                st.getObject(2).toString(),
+                                st.getObject(3).toString(),
+                                st.getObject(4).toString(),
+                                st.getObject(5).toString()
+                            };
+                            this.modeloVenta.addRow(datos);
+                        }  
+                    }
+                }
+                catch(Exception ee)
+                {
+                    JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ee);
+                }
+            }
+            if(TipoBusqueda.equals("Empleado"))
+            {
+                try
+                {
+                    ventas ventas = new ventas();
+                    ventas.setConn(Control.getConn());
+                    this.modeloVenta.setRowCount(0);
+                    ResultSet st = ventas.getVentasPorEmpleado(Parametro);
+                    if(st != null)
+                    {
+                        while(st.next()) 
+                        {
+                            String datos[] = 
+                            {
+                                st.getObject(1).toString(),
+                                st.getObject(2).toString(),
+                                st.getObject(3).toString(),
+                                st.getObject(4).toString(),
+                                st.getObject(5).toString()
+                            };
+                            this.modeloVenta.addRow(datos);
+                        }  
+                    }
+                }
+                catch(Exception ee)
+                {
+                    JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ee);
+                }
+            }  
+        }
+        txt_parametrobusqueda.setText("");
+    }//GEN-LAST:event_btn_buscrActionPerformed
+
+    private void TablaVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaVentasMouseClicked
+        int i = this.TablaVentas.getSelectedRow();
+        int id = Integer.parseInt(this.TablaVentas.getModel().getValueAt(i,0).toString());
+        
+        cargarDetalles(id);
+    }//GEN-LAST:event_TablaVentasMouseClicked
+
+    private void cbx_periodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_periodoActionPerformed
+        String seleccion = this.cbx_periodo.getSelectedItem().toString();
+        
+        cargarVentas(seleccion);
+        modeloDetalle.setRowCount(0);
+    }//GEN-LAST:event_cbx_periodoActionPerformed
+
+    private void btn_limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_limpiarActionPerformed
+        txt_parametrobusqueda.setText("");
+        modeloDetalle.setRowCount(0);
+        cargarVentas("Hoy");
+    }//GEN-LAST:event_btn_limpiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,7 +518,7 @@ public class AdminVentas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaDetalle;
     private javax.swing.JTable TablaVentas;
-    private javax.swing.JButton btn_guardarProductos;
+    private javax.swing.JButton btn_buscr;
     private javax.swing.JButton btn_limpiar;
     private javax.swing.JButton bttn_volver;
     private javax.swing.JComboBox<String> cbx_buscar;

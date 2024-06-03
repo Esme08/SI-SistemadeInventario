@@ -223,6 +223,7 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
     private void btn_adminVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adminVentasActionPerformed
         AdminVentas form = new AdminVentas();
         form.Control = this.Control;
+        form.cargarVentas("Hoy");
         form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_adminVentasActionPerformed
@@ -231,6 +232,7 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
         IniciarVenta form = new IniciarVenta();
         form.setControl(Control);
         form.cargarClientes();
+        form.cargarProductos();
         form.cargarEmpleados();
         form.setVisible(true);
     }//GEN-LAST:event_btn_registrarVentasActionPerformed
@@ -252,6 +254,8 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_adminPersonalActionPerformed
 
     private void btn_cerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarSesionActionPerformed
+        
+        
         this.dispose();
     }//GEN-LAST:event_btn_cerrarSesionActionPerformed
 

@@ -1,5 +1,6 @@
 package Conexion;
 
+// Importaciones necesarias para el funcionamiento de
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,9 +18,13 @@ import javax.swing.JOptionPane;
 
 public class Conexion 
 {
+    // Variables´para la conexión y la ejecución de consultas
     public Connection conn;
     private Statement stm;
    
+    /*constructor donde se realiza la conexión a la base de datos 
+    por medio de los parámetros Usuario y Clave,
+    que son las credenciales de la persona que quiere usar el sistema*/
     public Conexion(String pUsuario, String pClave)  
     {
         try
@@ -34,16 +39,19 @@ public class Conexion
         }
     }
 
+    // Constructor vacío
     public Conexion() 
     {
         
     }
    
+   //Método para obtener la conexión
    public Connection getConnection()
    {
        return this.conn;
    }
    
+   //Método para realizar una consulta
    public ArrayList<Object[]> consultar(String query) 
    {
        
@@ -71,7 +79,8 @@ public class Conexion
     
     return aResultados;
     }
-      
+   
+   //Método para insertar datos
    public void insertar(String query, Object[] params) 
    {
         try 

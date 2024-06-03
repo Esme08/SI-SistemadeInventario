@@ -1,11 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package sistema_los_amigos.Formularios.formEmpleados;
 
 import sistema_los_amigos.FormulariosComunes.IniciarVenta;
-import sistema_los_amigos.Formularios.formAdmin.*;
 import sistema_los_amigos.Sistema_Los_Amigos;
 
 /**

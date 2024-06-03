@@ -1,5 +1,6 @@
 package sistema_los_amigos;
 
+// Importaciones necesarias para el funcionamiento de
 import Conexion.Conexion;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -11,8 +12,9 @@ import sistema_los_amigos.FormulariosComunes.Inicio;
  */
 public class Sistema_Los_Amigos {
     
+    //Variables
     Conexion conn = new Conexion(); // aqui está la conexion
-    String Usuario;
+    String Usuario; 
     int Rol;
     int idusu;
     

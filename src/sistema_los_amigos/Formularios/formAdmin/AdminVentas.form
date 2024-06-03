@@ -120,7 +120,7 @@
                                               <Group type="102" attributes="0">
                                                   <Component id="txt_parametrobusqueda" min="-2" pref="119" max="-2" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="btn_guardarProductos" min="-2" pref="103" max="-2" attributes="0"/>
+                                                  <Component id="btn_buscr" min="-2" pref="103" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -168,14 +168,14 @@
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="lbl_tipobusqueda" alignment="3" max="-2" attributes="0"/>
                                       <Component id="txt_parametrobusqueda" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="btn_guardarProductos" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                                      <Component id="btn_buscr" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace pref="48" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane2" min="-2" pref="307" max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" min="-2" pref="307" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jScrollPane1" pref="307" max="32767" attributes="0"/>
+                              <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                       </Group>
@@ -205,6 +205,9 @@
                           </Table>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="TablaVentasMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -218,9 +221,10 @@
                     <Component class="javax.swing.JTable" name="TablaDetalle">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="2" rowCount="4">
+                          <Table columnCount="3" rowCount="0">
                             <Column editable="true" title="Producto" type="java.lang.Object"/>
                             <Column editable="true" title="Cantidad" type="java.lang.Object"/>
+                            <Column editable="true" title="Precio" type="java.lang.Object"/>
                           </Table>
                         </Property>
                       </Properties>
@@ -251,6 +255,9 @@
                       </StringArray>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbx_periodoActionPerformed"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
@@ -292,6 +299,9 @@
                       </Border>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_limpiarActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="bttn_volver">
                   <Properties>
@@ -321,10 +331,9 @@
                       <Font name="Trebuchet MS" size="14" style="1"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="3">
-                        <StringItem index="0" value="ID"/>
-                        <StringItem index="1" value="Cliente"/>
-                        <StringItem index="2" value="Empleado"/>
+                      <StringArray count="2">
+                        <StringItem index="0" value="Cliente"/>
+                        <StringItem index="1" value="Empleado"/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -364,7 +373,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="btn_guardarProductos">
+                <Component class="javax.swing.JButton" name="btn_buscr">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="0" green="65" red="c9" type="rgb"/>
@@ -382,6 +391,9 @@
                       </Border>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_buscrActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

@@ -61,6 +61,51 @@ public class productos
         }
     }
     
+    public ResultSet getProductosPorID(int id) 
+    {
+        try 
+        {
+           String orden = "SELECT productos.idProducto, productos.nombre, productos.descripcion, productos.precio, productos.cantidad, marca.nombre, tipo_producto.nombre FROM productos JOIN marca ON marca.idmarca = productos.id_marca JOIN tipo_producto ON tipo_producto.idtipo_producto = productos.id_tipoproducto WHERE idProducto = ?";
+           PreparedStatement stm = this.conn.conn.prepareStatement(orden);
+           stm.setInt(1, id);
+           return stm.executeQuery();
+        }
+        catch(Exception e) 
+        {
+           return null;
+        }
+    }
+    
+    public ResultSet getProductosPorNombre(String nombreProducto) 
+    {
+        try 
+        {
+           String orden = "SELECT productos.idProducto, productos.nombre, productos.descripcion, productos.precio, productos.cantidad, marca.nombre, tipo_producto.nombre FROM productos JOIN marca ON marca.idmarca = productos.id_marca JOIN tipo_producto ON tipo_producto.idtipo_producto = productos.id_tipoproducto WHERE productos.nombre like ?";
+           PreparedStatement stm = this.conn.conn.prepareStatement(orden);
+           stm.setString(1, "%"+nombreProducto+"%");
+           return stm.executeQuery();
+        }
+        catch(Exception e) 
+        {
+           return null;
+        }
+    }
+    
+    public ResultSet getProductosPorMarca(String marcaProducto) 
+    {
+        try 
+        {
+           String orden = "SELECT productos.idProducto, productos.nombre, productos.descripcion, productos.precio, productos.cantidad, marca.nombre, tipo_producto.nombre FROM productos JOIN marca ON marca.idmarca = productos.id_marca JOIN tipo_producto ON tipo_producto.idtipo_producto = productos.id_tipoproducto WHERE marca.nombre like ?";
+           PreparedStatement stm = this.conn.conn.prepareStatement(orden);
+           stm.setString(1, "%"+marcaProducto+"%");
+           return stm.executeQuery();
+        }
+        catch(Exception e) 
+        {
+           return null;
+        }
+    }
+    
     public void guardarProductos() 
     {
        

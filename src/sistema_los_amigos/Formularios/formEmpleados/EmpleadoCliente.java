@@ -4,19 +4,64 @@
  */
 package sistema_los_amigos.Formularios.formEmpleados;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import sistema_los_amigos.Formularios.formEmpleados.*;
+import sistema_los_amigos.Sistema_Los_Amigos;
+import sistema_los_amigos.clientes;
 
 /**
  *
  * @author esmer
  */
 public class EmpleadoCliente extends javax.swing.JFrame {
-
+Sistema_Los_Amigos Control = new Sistema_Los_Amigos();
+    DefaultTableModel modeloClientes;
+    
+    
+    //métodos para Clientes
+    public void cargarClientes ()
+    {
+        clientes clientes = new clientes();
+        clientes.setConn(Control.getConn());
+        this.modeloClientes.setRowCount(0);
+        try 
+        {
+            ResultSet st = clientes.getClientes();
+            if(st != null)
+            {
+                while(st.next()) 
+                {
+                    String datos[] = 
+                    {
+                        st.getObject(1).toString(),
+                        st.getObject(2).toString(),
+                        st.getObject(3).toString()
+                    };
+                    this.modeloClientes.addRow(datos);
+                }
+            }
+        }
+        catch (SQLException ex) 
+        { 
+            JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
+        }
+    }
+    
+    public void limpiarCliente ()
+    {
+        txt_id.setText("");
+        txt_nombre.setText("");
+        txt_correo.setText("");
+    }
     /**
      * Creates new form AdminCliente
      */
     public EmpleadoCliente() {
         initComponents();
+        modeloClientes = (DefaultTableModel) this.TablaClientes.getModel();
     }
 
     /**
@@ -70,6 +115,11 @@ public class EmpleadoCliente extends javax.swing.JFrame {
         btn_guardar.setForeground(new java.awt.Color(255, 255, 255));
         btn_guardar.setText("Guardar");
         btn_guardar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarActionPerformed(evt);
+            }
+        });
 
         lbl_correo.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         lbl_correo.setForeground(new java.awt.Color(255, 255, 255));
@@ -194,9 +244,26 @@ public class EmpleadoCliente extends javax.swing.JFrame {
 
     private void bttn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttn_volverActionPerformed
         menuPrincipalEmpleado form = new menuPrincipalEmpleado();
+        form.Control = this.Control;
         form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bttn_volverActionPerformed
+
+    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+        String nombreCliente = txt_nombre.getText();
+        String correo = txt_correo.getText();
+        if(nombreCliente.isEmpty() || correo.isEmpty())
+        {   
+            JOptionPane.showMessageDialog(null, "Asegurate de haber ingresado el nombre");       
+        }
+        else
+        {
+                clientes cliente = new clientes( nombreCliente, correo, this.Control.getConn());
+                cliente.guardarClientes();
+                limpiarCliente();
+                cargarClientes();
+        }                     
+    }//GEN-LAST:event_btn_guardarActionPerformed
 
     /**
      * @param args the command line arguments

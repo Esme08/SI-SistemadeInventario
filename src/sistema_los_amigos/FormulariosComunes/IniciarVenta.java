@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sistema_los_amigos.Formularios.formAdmin.menuPrincipalAdmin;
+import sistema_los_amigos.Formularios.formEmpleados.menuPrincipalEmpleado;
 import sistema_los_amigos.Sistema_Los_Amigos;
 import sistema_los_amigos.clientes;
 import sistema_los_amigos.detalles_ventas;
@@ -469,11 +470,20 @@ public class IniciarVenta extends javax.swing.JFrame {
             DetalleAGuardar.guardarDetalleVentas();
         }
         
-        menuPrincipalAdmin form = new menuPrincipalAdmin();
-        form.setControl(Control);
-        form.setVisible(true);
-        this.dispose();
-
+        if(Control.getRol() == 3)
+        {
+            menuPrincipalAdmin form = new menuPrincipalAdmin();
+            form.setControl(Control);
+            form.setVisible(true);
+            this.dispose();
+        }
+        if(Control.getRol() == 4)
+        {
+            menuPrincipalEmpleado form = new menuPrincipalEmpleado();
+            form.setControl(Control);
+            form.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_btn_finalizarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed

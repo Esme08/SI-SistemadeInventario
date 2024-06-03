@@ -4,6 +4,15 @@
  */
 package sistema_los_amigos.Formularios.formEmpleados;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import sistema_los_amigos.Sistema_Los_Amigos;
+import sistema_los_amigos.marca;
+import sistema_los_amigos.productos;
+import sistema_los_amigos.tipo_producto;
+
 
 
 /**
@@ -11,12 +20,205 @@ package sistema_los_amigos.Formularios.formEmpleados;
  * @author esmer
  */
 public class EmpleadoInventario extends javax.swing.JFrame {
+    Sistema_Los_Amigos Control = new Sistema_Los_Amigos();
+    DefaultTableModel modeloCategorias;
+    DefaultTableModel modeloMarcas;
+    DefaultTableModel modeloProductos;
+    
+    public void cargarCategorias ()
+    {
+        tipo_producto tipo = new tipo_producto();
+        tipo.setConn(Control.getConn());
+        this.modeloCategorias.setRowCount(0);
+        try 
+        {
+            ResultSet st = tipo.getTipoProducto();
+            if(st != null)
+            {
+                while(st.next()) 
+                {
+                    String datos[] = 
+                    {
+                        st.getObject(1).toString(),
+                        st.getObject(2).toString(),
+                        st.getObject(3).toString()
+                    };
+                    this.modeloCategorias.addRow(datos);
+                }
+            }
+        }
+        catch (SQLException ex) 
+        { 
+            JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
+        }
+    }
+    
+    public void cargarMarca ()
+    {
+        marca marca = new marca();
+        marca.setConn(Control.getConn());
+        
+        this.modeloMarcas.setRowCount(0);
+        try 
+        {
+            ResultSet st = marca.getMarca();
+            if(st != null)
+            {
+                while(st.next()) 
+                {
+                    String datos[] = 
+                    {
+                        st.getObject(1).toString(),
+                        st.getObject(2).toString(),
+                    };
+                    this.modeloMarcas.addRow(datos);
+                }
+            }
+        }
+        catch (SQLException ex) 
+        { 
+            JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
+        }
+    }
+    
+    public void cargarProductos ()
+    {
+        productos productos = new productos();
+        productos.setConn(Control.getConn());
+        
+        this.modeloProductos.setRowCount(0);
+        try 
+        {
+            ResultSet st = productos.getProductos();
+            if(st != null)
+            {
+                while(st.next()) 
+                {
+                    String datos[] = 
+                    {
+                        st.getObject(1).toString(),
+                        st.getObject(2).toString(),
+                        st.getObject(3).toString(),
+                        st.getObject(4).toString(),
+                        st.getObject(5).toString(),
+                        st.getObject(6).toString(),
+                        st.getObject(7).toString()
+                    };
+                    this.modeloProductos.addRow(datos);
+                }
+            }
+        }
+        catch (SQLException ex) 
+        { 
+            JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
+        }
+    }
+    
+    public void cargarProductos (int ID)
+    {
+        productos productos = new productos();
+        productos.setConn(Control.getConn());
+        
+        this.modeloProductos.setRowCount(0);
+        try 
+        {
+            ResultSet st = productos.getProductosPorID(ID);
+            if(st != null)
+            {
+                while(st.next()) 
+                {
+                    String datos[] = 
+                    {
+                        st.getObject(1).toString(),
+                        st.getObject(2).toString(),
+                        st.getObject(3).toString(),
+                        st.getObject(4).toString(),
+                        st.getObject(5).toString(),
+                        st.getObject(6).toString(),
+                        st.getObject(7).toString()
+                    };
+                    this.modeloProductos.addRow(datos);
+                }
+            }
+        }
+        catch (SQLException ex) 
+        { 
+            JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
+        }
+    }
+    
+    public void cargarProductos (String parametro, String tipobusqueda)
+    {
+        productos productos = new productos();
+        productos.setConn(Control.getConn());
+        
+        this.modeloProductos.setRowCount(0);
+        if(tipobusqueda.equals("Nombre"))
+        {
+            try 
+            {
+                ResultSet st = productos.getProductosPorNombre(parametro);
+                if(st != null)
+                {
+                    while(st.next()) 
+                    {
+                        String datos[] = 
+                        {
+                            st.getObject(1).toString(),
+                            st.getObject(2).toString(),
+                            st.getObject(3).toString(),
+                            st.getObject(4).toString(),
+                            st.getObject(5).toString(),
+                            st.getObject(6).toString(),
+                            st.getObject(7).toString()
+                        };
+                        this.modeloProductos.addRow(datos);
+                    }
+                }
+            }
+            catch (SQLException ex) 
+            { 
+                JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
+            }
+        }
+        if(tipobusqueda.equals("Marca"))
+        {
+            try 
+            {
+                ResultSet st = productos.getProductosPorMarca(parametro);
+                if(st != null)
+                {
+                    while(st.next()) 
+                    {
+                        String datos[] = 
+                        {
+                            st.getObject(1).toString(),
+                            st.getObject(2).toString(),
+                            st.getObject(3).toString(),
+                            st.getObject(4).toString(),
+                            st.getObject(5).toString(),
+                            st.getObject(6).toString(),
+                            st.getObject(7).toString()
+                        };
+                        this.modeloProductos.addRow(datos);
+                    }
+                }
+            }
+            catch (SQLException ex) 
+            { 
+                JOptionPane.showMessageDialog(null, "Ups! Algo salió mal" + ex);
+            }
+        }
+    }
 
     /**
      * Creates new form AdminInventario
      */
     public EmpleadoInventario() {
         initComponents();
+        modeloCategorias = (DefaultTableModel) this.tablaCategorias.getModel();
+        modeloMarcas = (DefaultTableModel)this.tablaMarcas.getModel();
+        modeloProductos = (DefaultTableModel)this.tablaProductos.getModel();
     }
 
     /**
@@ -263,6 +465,11 @@ public class EmpleadoInventario extends javax.swing.JFrame {
         btn_guardarProductos.setForeground(new java.awt.Color(255, 255, 255));
         btn_guardarProductos.setText("Buscar");
         btn_guardarProductos.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_guardarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarProductosActionPerformed(evt);
+            }
+        });
 
         txt_parametrobusqueda.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
 
@@ -357,19 +564,38 @@ public class EmpleadoInventario extends javax.swing.JFrame {
 
     private void bttn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttn_volverActionPerformed
         menuPrincipalEmpleado form = new menuPrincipalEmpleado();
+        form.Control = this.Control;
         form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bttn_volverActionPerformed
 
     private void bttn_volver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttn_volver1ActionPerformed
         menuPrincipalEmpleado form = new menuPrincipalEmpleado();
+        form.Control = this.Control;
         form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bttn_volver1ActionPerformed
 
     private void bttn_volver2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttn_volver2ActionPerformed
-        // TODO add your handling code here:
+        menuPrincipalEmpleado form = new menuPrincipalEmpleado();
+        form.Control = this.Control;
+        form.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_bttn_volver2ActionPerformed
+
+    private void btn_guardarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarProductosActionPerformed
+        String seleccion = cbx_buscar.getSelectedItem().toString();
+        String parametro = txt_parametrobusqueda.getText();
+        
+        if(seleccion.equals("ID"))
+        {
+            cargarProductos(Integer.parseInt(parametro));
+        }
+        if(seleccion.equals("Nombre") || seleccion.equals("Marca"))
+        {
+            cargarProductos(parametro, seleccion);
+        }
+    }//GEN-LAST:event_btn_guardarProductosActionPerformed
 
     /**
      * @param args the command line arguments

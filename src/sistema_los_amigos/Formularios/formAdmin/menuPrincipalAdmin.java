@@ -1,6 +1,11 @@
 package sistema_los_amigos.Formularios.formAdmin;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import sistema_los_amigos.Formularios.formEmpleados.menuPrincipalEmpleado;
 import sistema_los_amigos.FormulariosComunes.IniciarVenta;
+import sistema_los_amigos.FormulariosComunes.Inicio;
 import sistema_los_amigos.Sistema_Los_Amigos;
 
 /**
@@ -255,8 +260,8 @@ public class menuPrincipalAdmin extends javax.swing.JFrame {
 
     private void btn_cerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarSesionActionPerformed
         
+            this.dispose();
         
-        this.dispose();
     }//GEN-LAST:event_btn_cerrarSesionActionPerformed
 
     /**

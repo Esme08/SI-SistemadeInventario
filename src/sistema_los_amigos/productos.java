@@ -153,6 +153,26 @@ public class productos
         }
     }
     
+    public void ActualizarStock(int IDProducto, int CantidadNueva) 
+    {
+       if (IDProducto > 0) 
+        {
+            try 
+            {
+                String orden = 
+                "UPDATE productos SET cantidad=? WHERE idProducto=?";
+                PreparedStatement pst = this.conn.conn.prepareStatement(orden);
+                pst.setInt(1, CantidadNueva);
+                pst.setInt(2, IDProducto);
+                pst.execute();
+            }
+            catch(Exception ee) 
+            {
+               JOptionPane.showMessageDialog(null, ee);
+            }
+        }
+    }
+    
     public void borrarProductos() 
     {
         try 

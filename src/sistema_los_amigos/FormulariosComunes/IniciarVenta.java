@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import sistema_los_amigos.FacturaElectrónica;
 import sistema_los_amigos.Formularios.formAdmin.menuPrincipalAdmin;
 import sistema_los_amigos.Formularios.formEmpleados.menuPrincipalEmpleado;
 import sistema_los_amigos.Sistema_Los_Amigos;
@@ -139,6 +140,7 @@ public class IniciarVenta extends javax.swing.JFrame {
                     Registro.setIdProducto(Integer.parseInt(st.getObject(1).toString()));
                     Registro.setNombre(st.getObject(2).toString());
                     Registro.setPrecio(Double.parseDouble(st.getObject(4).toString()));
+                    Registro.setCantidad(Integer.parseInt(st.getObject(5).toString()));
                     ListaProductos.add(Registro);
                     
                     cbx_producto.addItem(st.getObject(2).toString());
@@ -437,12 +439,18 @@ public class IniciarVenta extends javax.swing.JFrame {
     private void btn_finalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_finalizarActionPerformed
         int idCliente = 0;
         int idEmpleado = 0;
+        String CorreoReceptor = "";
+        String Contenido = "Estimado Cliente este es su comprobante de pago \n"
+                + "\n"
+                +"Factura: \n"
+                +"Producto:           Cantidad:           Precio: \n";
 
         for (int i = 0; i < Listaclientes.size(); i++)
         {
             if(txt_nombre.getText().equals(Listaclientes.get(i).getNombre()))
             {
                 idCliente = Listaclientes.get(i).getIdCliente();
+                CorreoReceptor = Listaclientes.get(i).getCorreo();
             }
         }
 
@@ -468,7 +476,25 @@ public class IniciarVenta extends javax.swing.JFrame {
         {
             detalles_ventas DetalleAGuardar = new detalles_ventas(IdVenta, detalle.get(i).getId_producto(), detalle.get(i).getCantidad_vendida(), Control.getConn());
             DetalleAGuardar.guardarDetalleVentas();
+            
+            productos ProductoActualizado = new productos();
+            ProductoActualizado.setConn(this.Control.getConn());
+            
+            for (int j = 0; j < ListaProductos.size(); j++)
+            {
+                if(detalle.get(i).getId_producto() == ListaProductos.get(j).getIdProducto())
+                {
+                    ProductoActualizado.ActualizarStock(detalle.get(i).getId_producto(), ListaProductos.get(j).getCantidad()-detalle.get(i).getCantidad_vendida());
+                    Contenido += ListaProductos.get(j).getNombre() + "     " + detalle.get(i).getCantidad_vendida() + "     " + ListaProductos.get(j).getPrecio() + "\n";
+                }
+                            
+            }
         }
+        
+        Contenido += "Total: " + total;
+        
+        FacturaElectrónica facturar = new FacturaElectrónica();
+        facturar.CrearYEnviarFactura(CorreoReceptor, Contenido);
         
         if(Control.getRol() == 3)
         {
@@ -490,35 +516,41 @@ public class IniciarVenta extends javax.swing.JFrame {
         String NombreProducto = cbx_producto.getSelectedItem().toString();
         int CantidadComprada = Integer.parseInt(txt_cantidad.getValue().toString());
 
-        int IdProducto = 0;
+        int IdProducto;
 
         for (int i = 0; i < ListaProductos.size(); i++)
         {
             if(NombreProducto.equals(ListaProductos.get(i).getNombre()))
             {
-                IdProducto = ListaProductos.get(i).getIdProducto();
-                total += ListaProductos.get(i).getPrecio()*CantidadComprada;
-                
-                String Datos[] =
+                if(ListaProductos.get(i).getCantidad() >= CantidadComprada)
                 {
-                    NombreProducto, 
-                    String.valueOf(CantidadComprada), 
-                    String.valueOf( ListaProductos.get(i).getPrecio())
-                    
-                };
-                modeloproducto.addRow(Datos);
+                    IdProducto = ListaProductos.get(i).getIdProducto();
+                    total += ListaProductos.get(i).getPrecio()*CantidadComprada;
+
+                    String Datos[] =
+                    {
+                        NombreProducto, 
+                        String.valueOf(CantidadComprada), 
+                        String.valueOf( ListaProductos.get(i).getPrecio())
+
+                    };
+                    modeloproducto.addRow(Datos);
+                    detalles_ventas Registro = new detalles_ventas();
+                    Registro.setId_producto(IdProducto);
+                    Registro.setCantidad_vendida(CantidadComprada);
+
+                    detalle.add(Registro);
+                    txt_total.setText(String.valueOf(total));
+                    txt_nombre.setEnabled(false);
+                    cbx_empleado.setEnabled(false);
+                    TablaClientes.setEnabled(false);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "El producto no tiene suficientes existencias");
+                }
             }
         }
-
-        detalles_ventas Registro = new detalles_ventas();
-        Registro.setId_producto(IdProducto);
-        Registro.setCantidad_vendida(CantidadComprada);
-
-        detalle.add(Registro);
-        txt_total.setText(String.valueOf(total));
-        txt_nombre.setEnabled(false);
-        cbx_empleado.setEnabled(false);
-        TablaClientes.setEnabled(false);
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
